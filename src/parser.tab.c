@@ -1715,7 +1715,7 @@ void variables_checking()
 	}
 	if(flag==0)
 	{
-		fprintf(stderr,"This variable is undeclared %s\n",temp);
+		fprintf(stderr,"This variable is undeclared: %s\n",temp);
 		exit(0);
 	}
 }

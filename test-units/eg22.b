@@ -4,11 +4,16 @@ declblock{
 }
 codeblock{
 	if i == 1 {
-		sum+i=i;
+		while i==1 {
+			sum=2;
+		}
 	}
 
 	if i==1 {
 		sum=0;
+		if sum == 0 {
+			i=2;
+		}
 	}
 	else {
 		i=2;
