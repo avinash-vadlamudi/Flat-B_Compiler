@@ -23,7 +23,7 @@
 "println"	{printf("Token: %s\n",yytext) ;return PRINTLN;}
 "read"		{printf("Token: %s\n",yytext) ;return READ;}
 
-[0-9]		{printf("Token type: Number, Lexeme/Token Value: %s\n",yytext) ;return DIGIT;}
+-?([0-9])		{printf("Token type: Number, Lexeme/Token Value: %s\n",yytext) ;return DIGIT;}
 [1-9][0-9]*	{  
 			printf("Token type: Number, Lexeme/Token Value: %s\n", yytext);  
 			return NUMBER; 

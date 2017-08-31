@@ -137,19 +137,19 @@ printstmt : TEXT ',' printstmt
 	  | VARIABLE
 	  ;
 
-boolexpression : boolexpression LOGOR boolexpression
-	       | boolexpression LOGAND boolexpression
-	       | boolexpression '|' boolexpression
-	       | boolexpression '^' boolexpression
-	       | boolexpression '&' boolexpression
-	       | boolexpression LOGEQ boolexpression
-	       | boolexpression NOTEQ boolexpression
-	       | boolexpression GEQ boolexpression
-	       | boolexpression '>' boolexpression
-	       | boolexpression LEQ boolexpression
-	       | boolexpression '<' boolexpression
-	       | boolexpression ')' boolexpression
-	       | boolexpression '(' boolexpression
+boolexpression : expression LOGOR expression
+	       | expression LOGAND expression
+	       | expression '|' expression
+	       | expression '^' expression
+	       | expression '&' expression
+	       | expression LOGEQ expression
+	       | expression NOTEQ expression
+	       | expression GEQ expression
+	       | expression '>' expression
+	       | expression LEQ expression
+	       | expression '<' expression
+	       | expression ')' expression
+	       | expression '(' expression
 	       | VARIABLE
 	       | VALUE
 	       ;
