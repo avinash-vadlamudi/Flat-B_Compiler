@@ -1,6 +1,5 @@
 declblock{
-	int data[100];
-	int i, sum;
+	int data[100],i,i2,sum;
 }
 codeblock{
 	if i = 1 {

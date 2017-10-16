@@ -1,22 +1,29 @@
 %{
-  #include <stdio.h>
-  #include <stdlib.h>
-  FILE *yyin;
+  //#include <stdio.h>
+  //#include <stdlib.h>
+  #include "classes.h"
+  #include <bits/stdc++.h>
+  extern FILE *yyin;
+  extern int line_num;
   int yylex (void);
+  class Program* start = NULL;
   void yyerror (char const *s);
   void variables_redeclaration();
   void variables_checking();
+  extern union Node yylval;
+
 %}
+%start program
 
-%token declblock
-%token codeblock
+%token<identifier> declblock
+%token<identifier> codeblock
 
-%token DIGIT
-%token NUMBER
-%token IDENTIFIER
+%token<value> DIGIT
+%token<value> NUMBER
+%token<identifier> IDENTIFIER
 %token ETOK
-%token TYPE
-%token TEXT
+%token<identifier> TYPE
+%token<identifier> TEXT
 
 %token IF
 %token ELSE
@@ -56,124 +63,139 @@
 %left ')'
 %left '('
 
-%union {char *identifier;}
-
+%type<program> program;
+%type<decl_block> decl_block;
+%type<code_block> code_block;
+%type<declaration_list> declaration_list;
+%type<decl_stmt> decl_stmt;
+%type<expr> expr;
+%type<variables> variables;
+%type<value> VALUE;
+%type<statement_list> statement_list;
+%type<expression> expression;
+%type<boolexpression> boolexpression;
+%type<stmt> stmt;
+%type<variables2> VARIABLE;
+%type<condition> condition;
+%type<whileloop> whileloop;
+%type<forloop> forloop;
+%type<print> print;
+%type<read> read;
+%type<readvars> readvars;
+%type<printstmt> printstmt;
+%type<prt> prt;
+%type<gotoloop> gotoloop;
 %%
 
-program:	decl_block code_block
+program:  decl_block code_block {$$ = new Program($1,$2);start = $$;}
 
-decl_block:  declblock '{' declaration_list '}'
+decl_block:  declblock '{' declaration_list '}' {$$ = new Decl_block($3);}
 
-code_block:  codeblock '{' statement_list '}' 
+code_block:  codeblock '{' statement_list '}'  {$$ = new Code_block($3);}
 
 
-declaration_list : decl_stmt ';' declaration_list 
-		 |
+declaration_list : decl_stmt ';' {$$ = new Declaration_list($1);}
+		 | declaration_list decl_stmt ';' {$$ = new Declaration_list($1,$2);}
 		 ;
 
-decl_stmt : TYPE expr 
-	  |
+decl_stmt : TYPE expr {$$ = new Decl_stmt(string($1),$2);}
 	  ;
 
-expr : variables ',' expr 
-     | variables
+expr : variables ',' expr {$$ = new Expr($1,$3);}
+     | variables {$$ = new Expr($1);}
      ;
 
-variables : IDENTIFIER{variables_redeclaration();} '[' VALUE ']' 
-	  | IDENTIFIER{variables_redeclaration();}
+variables : IDENTIFIER '[' VALUE ']' {$$ = new Variables(string($1),$3,1);}
+	  | IDENTIFIER { $$ = new Variables(string($1),0,0);}
 	  ;
 
-statement_list : forloop statement_list
-	       | whileloop statement_list
-	       | gotoloop ';' statement_list
-	       | condition statement_list
-	       | print ';' statement_list
-	       | read ';' statement_list
-	       | stmt ';' statement_list 
-	       | 
+
+statement_list : forloop statement_list {$$ = new Statement_list($1,$2);}
+	       | whileloop statement_list {$$ = new Statement_list($1,$2);}
+	       | gotoloop ';' statement_list {$$ = new Statement_list($1,$3);}
+	       | condition statement_list {$$ = new Statement_list($1,$2);}
+	       | print ';' statement_list {$$ = new Statement_list($1,$3);}
+	       | read ';' statement_list {$$ = new Statement_list($1,$3);}
+	       | stmt ';' statement_list {$$ = new Statement_list($1,$3);}
+	       | IDENTIFIER ':' statement_list {$$ = new Statement_list(string($1),$3);}
+	       | {$$ = new Statement_list();}
 	       ;
 
-stmt : VARIABLE '=' stmt
-     | expression
+
+stmt : VARIABLE '=' stmt {$$ = new Stmt($1,$3);}
+     | expression {$$ = new Stmt($1);}
      ;
 
-VARIABLE : IDENTIFIER{variables_checking();}
-	 | IDENTIFIER{variables_checking();} '[' temp ']'
+VARIABLE : IDENTIFIER {$$ = new Variables2(string($1));}
+	 | IDENTIFIER '[' expression ']' {$$ = new Variables2(string($1),$3);}
 	 ;
 
-temp : VALUE
-     | IDENTIFIER{variables_checking();}
-     ;
 
-VALUE : DIGIT
-      | NUMBER
+/*
+temp : VALUE
+     | IDENTIFIER
+     | IDENTIFIER '[' temp ']'
+     ;
+*/
+
+VALUE : DIGIT {$$=$1;}
+      | NUMBER {$$=$1;}
       ;
 
-condition : IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
-	  | IF boolexpression '{' statement_list '}'
+condition : IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}'  {$$ = new Condition($2,$4,$8);}
+	  | IF boolexpression '{' statement_list '}'  {$$ = new Condition($2,$4);}
 	  ;
 
-whileloop : WHILE boolexpression '{' statement_list '}'
+whileloop : WHILE boolexpression '{' statement_list '}'  {$$ = new WhileLoop($2,$4);}
 	  ;
 
-forloop : FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
-	| FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'
+forloop : FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8,$10);}
+	| FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8);}
 	;
 
-gotoloop : IDENTIFIER ':' statement_list GOTO IDENTIFIER 
-	 | IDENTIFIER ':' statement_list GOTO IDENTIFIER IF boolexpression
+gotoloop : GOTO IDENTIFIER {$$ = new GoToLoop(string($2));}
+	 | GOTO IDENTIFIER IF boolexpression  {$$ = new GoToLoop(string($2),$4);}
 	 ;
 
-read : READ VARIABLE
+read : READ readvars {$$ = new Read($2);}
      ;
+readvars : VARIABLE ',' readvars {$$ = new ReadVars($1,$3);}
+	 | VARIABLE  {$$ = new ReadVars($1);}
 
-print : PRINT printstmt
-      | PRINTLN printstmt
+print : PRINT printstmt {$$ = new Print($2);}
+      | PRINTLN printstmt  {$$ = new Print($2);}
       ;
 
-printstmt : TEXT ',' printstmt
-	  | VARIABLE ',' printstmt
-	  | TEXT
-	  | VARIABLE
+printstmt : printstmt ',' prt {$$ = new PrintStmt($3,$1);}
+	  | prt {$$ = new PrintStmt($1);}
 	  ;
 
-boolexpression : expression LOGOR expression
-	       | expression LOGAND expression
-	       | expression '|' expression
-	       | expression '^' expression
-	       | expression '&' expression
-	       | expression LOGEQ expression
-	       | expression NOTEQ expression
-	       | expression GEQ expression
-	       | expression '>' expression
-	       | expression LEQ expression
-	       | expression '<' expression
-	       | expression ')' expression
-	       | expression '(' expression
-	       | VARIABLE
-	       | VALUE
+prt : TEXT {$$ = new Prt(string($1));}
+    | VARIABLE {$$ = new Prt($1);}
+    ;
+
+boolexpression : expression LOGOR expression {$$ = new BoolExpression($1,string("||"),$3);}
+	       | expression LOGAND expression {$$ = new BoolExpression($1,string("&&"),$3);}
+	       | expression LOGEQ expression {$$ = new BoolExpression($1,string("=="),$3);}
+	       | expression NOTEQ expression {$$ = new BoolExpression($1,string("!="),$3);}
+	       | expression GEQ expression  {$$ = new BoolExpression($1,string(">="),$3);}
+	       | expression '>' expression  {$$ = new BoolExpression($1,string(">"),$3);}
+	       | expression LEQ expression  {$$ = new BoolExpression($1,string("<="),$3);}
+	       | expression '<' expression  {$$ = new BoolExpression($1,string("<"),$3);}
+	       | '(' boolexpression ')'  {$$ = $2;}
 	       ;
 
-expression : expression LOGOR expression
-	   | expression LOGAND expression
-	   | expression '|' expression
-	   | expression '^' expression
-	   | expression '&' expression
-	   | expression LOGEQ expression
-	   | expression NOTEQ expression
-	   | expression GEQ expression
-	   | expression '>' expression
-	   | expression LEQ expression
-	   | expression '<' expression
-	   | expression '-' expression
-	   | expression '+' expression
-	   | expression '%' expression
-	   | expression '/' expression
-	   | expression '*' expression
-	   | expression ')' expression
-	   | expression '(' expression
-	   | VARIABLE
-	   | VALUE
+expression : expression '|' expression  {$$ = new Expression($1,string("|"),$3);}
+	   | expression '^' expression  {$$ = new Expression($1,string("^"),$3);}
+	   | expression '&' expression  {$$ = new Expression($1,string("&"),$3);}
+	   | expression '-' expression  {$$ = new Expression($1,string("-"),$3);}
+	   | expression '+' expression  {$$ = new Expression($1,string("+"),$3);}
+	   | expression '%' expression  {$$ = new Expression($1,string("%"),$3);}
+	   | expression '/' expression  {$$ = new Expression($1,string("/"),$3);}
+	   | expression '*' expression  {$$ = new Expression($1,string("*"),$3);}
+	   | '(' expression ')'  {$$ = $2;}
+	   | VARIABLE {$$ = new Expression($1);}
+	   | VALUE  {$$ = new Expression($1);}
 	   ;
 
 
@@ -233,8 +255,9 @@ void variables_checking()
 
 void yyerror (char const *s)
 {
-	fprintf(stderr,"Error before: %s\n",yytext);
-       fprintf (stderr, "%s\n", s);
+	fprintf(stderr,"Error:%s At: %s Line-No:%d\n",s,yylval.identifier,line_num);
+       //fprintf (stderr, "%s\n", s);
+  exit(-1);
 }
 
 int main(int argc, char *argv[])
@@ -252,4 +275,8 @@ int main(int argc, char *argv[])
 	yyin = fopen(argv[1], "r");
 
 	yyparse();
+  if(start)
+  {
+    start->traverse();
+  }
 }

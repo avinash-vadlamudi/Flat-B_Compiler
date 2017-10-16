@@ -3,7 +3,7 @@ declblock{
 	int i, sum;
 }
 codeblock{
-	if i = 1 {
+	if i == 1 {
 		while i==1 {
 			sum=2;
 		}

@@ -1,9 +1,9 @@
-bcc:	parser.tab.c lex.yy.c
-	gcc parser.tab.c -lfl -o bcc
+bcc:	parser.tab.c lex.yy.c classes.cpp classes.h
+	g++ parser.tab.c classes.cpp -lfl -o bcc
 parser.tab.c: parser.y 
-	bison -d parser.y 
+	bison -d -v parser.y 
 parser.tab.h: parser.y
-	bison -d parser.y 
+	bison -d  parser.y 
 lex.yy.c: scanner.l parser.tab.h
 	flex scanner.l
 
