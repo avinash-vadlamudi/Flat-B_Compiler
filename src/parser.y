@@ -11,6 +11,7 @@
   void variables_redeclaration();
   void variables_checking();
   extern union Node yylval;
+  extern int errors;
 
 %}
 %start program
@@ -87,16 +88,18 @@
 %type<gotoloop> gotoloop;
 %%
 
-program:  decl_block code_block {$$ = new Program($1,$2);start = $$;}
+program:  decl_block code_block {$$ = new Program($1,$2);start = $$;errors =0;}
 
 decl_block:  declblock '{' declaration_list '}' {$$ = new Decl_block($3);}
 
 code_block:  codeblock '{' statement_list '}'  {$$ = new Code_block($3);}
 
 
-declaration_list : decl_stmt ';' {$$ = new Declaration_list($1);}
-		 | declaration_list decl_stmt ';' {$$ = new Declaration_list($1,$2);}
-		 ;
+declaration_list : decl_stmt ';' declaration_list  {$$ = new Declaration_list($3,$1);}
+                 |  {$$ = new Declaration_list();}
+		             ;
+
+
 
 decl_stmt : TYPE expr {$$ = new Decl_stmt(string($1),$2);}
 	  ;
@@ -162,8 +165,8 @@ read : READ readvars {$$ = new Read($2);}
 readvars : VARIABLE ',' readvars {$$ = new ReadVars($1,$3);}
 	 | VARIABLE  {$$ = new ReadVars($1);}
 
-print : PRINT printstmt {$$ = new Print($2);}
-      | PRINTLN printstmt  {$$ = new Print($2);}
+print : PRINT printstmt {$$ = new Print($2,0);}
+      | PRINTLN printstmt  {$$ = new Print($2,1);}
       ;
 
 printstmt : printstmt ',' prt {$$ = new PrintStmt($3,$1);}
