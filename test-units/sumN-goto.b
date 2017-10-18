@@ -18,6 +18,5 @@ L2:	sum = sum + data[i];
 	goto L2 if i < 100;
 
 	print "Sum value: ", sum;
-	println "sumval"
 }
 

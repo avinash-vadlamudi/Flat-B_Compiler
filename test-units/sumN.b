@@ -1,5 +1,5 @@
 declblock{
-	int data[100];
+	int data[101];
 	int i, sum;
 }
 

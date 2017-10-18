@@ -30,13 +30,13 @@ class Statement_list * SymbolTable2::getptr(string str)
   class Statement_list* temp_ptr=NULL;
   if(references_list.find(str)==references_list.end())
   {
-    temp_ptr = references_list[str].list_ptr;
+    errors++;
+    cout<<"Reference Not declared Ref is: "<<str<<endl;
     return temp_ptr;
   }
   else
   {
-    errors++;
-    cout<<"Reference Not declared Ref is: "<<str<<endl;
+    temp_ptr = references_list[str].list_ptr;
     return temp_ptr;
   }
 
@@ -112,7 +112,7 @@ int SymbolTable::getvalue(string str,int ind)
     cout<<"Variable Not Declared Name: "<<str<<endl;
     return -1;
   }
-  if(variables_list[str].max_index<ind-1 || ind<0)
+  if(variables_list[str].max_index<ind+1 || ind<0)
     {
       errors++;
       cout<<"Accessing out of bound"<<str<<" Index-No: "<<ind<<"\n";
@@ -131,11 +131,10 @@ void SymbolTable::update(string str,int ind,int val)
     cout<<"Variable Not Declared Name: "<<str<<endl;
     return ;
   }
-
-  if(variables_list[str].max_index<ind-1 || ind<0)
+  if(variables_list[str].max_index<ind+1 || ind<0)
     {
       errors++;
-      cout<<"Accessing out of bound"<<str<<" Index-No: "<<ind<<"\n";
+      cout<<"Accessing out of bound: Variable: "<<str<<" Index-No: "<<ind<<"\n";
       return ;
     }
     variables_list[str].list[ind] = val;
@@ -490,8 +489,8 @@ ForLoop::ForLoop(class Variables2* var1,int var2,int var3,int var4,class Stateme
 {
   var = var1;
   val1 = var2;
-  val2 = var3;
-  val3 = var4;
+  val2 = var4;
+  val3 = var3;
   list1 = var5;
 }
 ForLoop::ForLoop(class Variables2* var1,int var2,int var3,class Statement_list *var4)

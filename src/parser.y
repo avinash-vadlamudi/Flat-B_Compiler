@@ -109,7 +109,7 @@ expr : variables ',' expr {$$ = new Expr($1,$3);}
      ;
 
 variables : IDENTIFIER '[' VALUE ']' {$$ = new Variables(string($1),$3,1);}
-	  | IDENTIFIER { $$ = new Variables(string($1),0,0);}
+	  | IDENTIFIER { $$ = new Variables(string($1),1,0);}
 	  ;
 
 

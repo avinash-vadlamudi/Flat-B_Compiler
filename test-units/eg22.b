@@ -4,7 +4,7 @@ declblock{
 }
 codeblock{
 	if i == 1 {
-		while i==1 {
+		while i<3 {
 			sum=2;
 		}
 	}

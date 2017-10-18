@@ -1388,7 +1388,7 @@ yyreduce:
 
   case 11:
 #line 112 "parser.y" /* yacc.c:1646  */
-    { (yyval.variables) = new Variables(string((yyvsp[0].identifier)),0,0);}
+    { (yyval.variables) = new Variables(string((yyvsp[0].identifier)),1,0);}
 #line 1393 "parser.tab.c" /* yacc.c:1646  */
     break;
 
