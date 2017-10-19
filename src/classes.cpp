@@ -556,15 +556,19 @@ Prt::Prt(class Variables2* var1)
   var = var1;
 }
 
-GoToLoop::GoToLoop(string str)
+GoToLoop::GoToLoop(string str,class Statement_list* var,string str2)
 {
-  name = str;
+  name1 = str;
+  name2 = str2;
+  list1 = var;
   val = 1;
   reqd_expr = NULL;
 }
-GoToLoop::GoToLoop(string str,class BoolExpression *var1)
+GoToLoop::GoToLoop(string str,class Statement_list* var,string str2,class BoolExpression *var1)
 {
-  name = str;
+  name1 = str;
+  name2 = str2;
+  list1 = var;
   reqd_expr = var1;
 }
 
@@ -934,17 +938,25 @@ void GoToLoop::traverse()
 {
   if(errors>0)
   return;
-
-  list1 = symtable2->getptr(name);
+  if(name1!=name2)
+  {
+    errors++;
+    cout<<"Identifiers doesn't match: "<<name1<<" "<<name2<<endl;
+    return;
+  }
   if(reqd_expr!=NULL)
   {
     int temp = reqd_expr->traverse();
-    if(temp==1)
-    list1->traverse();
+    while(temp==1)
+    {
+      list1->traverse();
+      temp = reqd_expr->traverse();
+    }
   }
   else
   {
-    list1->traverse();
+    while(1)
+      list1->traverse();
   }
 }
 void Code_block::traverse()

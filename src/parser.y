@@ -120,7 +120,6 @@ statement_list : forloop statement_list {$$ = new Statement_list($1,$2);}
 	       | print ';' statement_list {$$ = new Statement_list($1,$3);}
 	       | read ';' statement_list {$$ = new Statement_list($1,$3);}
 	       | stmt ';' statement_list {$$ = new Statement_list($1,$3);}
-	       | IDENTIFIER ':' statement_list {$$ = new Statement_list(string($1),$3);}
 	       | {$$ = new Statement_list();}
 	       ;
 
@@ -156,8 +155,8 @@ forloop : FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'  {$$
 	| FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8);}
 	;
 
-gotoloop : GOTO IDENTIFIER {$$ = new GoToLoop(string($2));}
-	 | GOTO IDENTIFIER IF boolexpression  {$$ = new GoToLoop(string($2),$4);}
+gotoloop :IDENTIFIER ':' statement_list GOTO IDENTIFIER {$$ = new GoToLoop(string($1),$3,string($5));}
+	 |IDENTIFIER ':' statement_list GOTO IDENTIFIER IF boolexpression  {$$ = new GoToLoop(string($1),$3,string($5),$7);}
 	 ;
 
 read : READ readvars {$$ = new Read($2);}

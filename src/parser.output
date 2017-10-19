@@ -31,112 +31,111 @@ Grammar
    15               | print ';' statement_list
    16               | read ';' statement_list
    17               | stmt ';' statement_list
-   18               | IDENTIFIER ':' statement_list
-   19               | %empty
+   18               | %empty
 
-   20 stmt: VARIABLE '=' stmt
-   21     | expression
+   19 stmt: VARIABLE '=' stmt
+   20     | expression
 
-   22 VARIABLE: IDENTIFIER
-   23         | IDENTIFIER '[' expression ']'
+   21 VARIABLE: IDENTIFIER
+   22         | IDENTIFIER '[' expression ']'
 
-   24 VALUE: DIGIT
-   25      | NUMBER
+   23 VALUE: DIGIT
+   24      | NUMBER
 
-   26 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
-   27          | IF boolexpression '{' statement_list '}'
+   25 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
+   26          | IF boolexpression '{' statement_list '}'
 
-   28 whileloop: WHILE boolexpression '{' statement_list '}'
+   27 whileloop: WHILE boolexpression '{' statement_list '}'
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'
 
-   31 gotoloop: GOTO IDENTIFIER
-   32         | GOTO IDENTIFIER IF boolexpression
+   30 gotoloop: IDENTIFIER ':' statement_list GOTO IDENTIFIER
+   31         | IDENTIFIER ':' statement_list GOTO IDENTIFIER IF boolexpression
 
-   33 read: READ readvars
+   32 read: READ readvars
 
-   34 readvars: VARIABLE ',' readvars
-   35         | VARIABLE
+   33 readvars: VARIABLE ',' readvars
+   34         | VARIABLE
 
-   36 print: PRINT printstmt
-   37      | PRINTLN printstmt
+   35 print: PRINT printstmt
+   36      | PRINTLN printstmt
 
-   38 printstmt: printstmt ',' prt
-   39          | prt
+   37 printstmt: printstmt ',' prt
+   38          | prt
 
-   40 prt: TEXT
-   41    | VARIABLE
+   39 prt: TEXT
+   40    | VARIABLE
 
-   42 boolexpression: expression LOGOR expression
-   43               | expression LOGAND expression
-   44               | expression LOGEQ expression
-   45               | expression NOTEQ expression
-   46               | expression GEQ expression
-   47               | expression '>' expression
-   48               | expression LEQ expression
-   49               | expression '<' expression
-   50               | '(' boolexpression ')'
+   41 boolexpression: expression LOGOR expression
+   42               | expression LOGAND expression
+   43               | expression LOGEQ expression
+   44               | expression NOTEQ expression
+   45               | expression GEQ expression
+   46               | expression '>' expression
+   47               | expression LEQ expression
+   48               | expression '<' expression
+   49               | '(' boolexpression ')'
 
-   51 expression: expression '|' expression
-   52           | expression '^' expression
-   53           | expression '&' expression
-   54           | expression '-' expression
-   55           | expression '+' expression
-   56           | expression '%' expression
-   57           | expression '/' expression
-   58           | expression '*' expression
-   59           | '(' expression ')'
-   60           | VARIABLE
-   61           | VALUE
+   50 expression: expression '|' expression
+   51           | expression '^' expression
+   52           | expression '&' expression
+   53           | expression '-' expression
+   54           | expression '+' expression
+   55           | expression '%' expression
+   56           | expression '/' expression
+   57           | expression '*' expression
+   58           | '(' expression ')'
+   59           | VARIABLE
+   60           | VALUE
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'%' (37) 56
-'&' (38) 53
-'(' (40) 50 59
-')' (41) 50 59
-'*' (42) 58
-'+' (43) 55
-',' (44) 7 29 30 34 38
-'-' (45) 54
-'/' (47) 57
-':' (58) 18
+'%' (37) 55
+'&' (38) 52
+'(' (40) 49 58
+')' (41) 49 58
+'*' (42) 57
+'+' (43) 54
+',' (44) 7 28 29 33 37
+'-' (45) 53
+'/' (47) 56
+':' (58) 30 31
 ';' (59) 4 13 15 16 17
-'<' (60) 49
-'=' (61) 20 29 30
-'>' (62) 47
-'[' (91) 9 23
-']' (93) 9 23
-'^' (94) 52
-'{' (123) 2 3 26 27 28 29 30
-'|' (124) 51
-'}' (125) 2 3 26 27 28 29 30
+'<' (60) 48
+'=' (61) 19 28 29
+'>' (62) 46
+'[' (91) 9 22
+']' (93) 9 22
+'^' (94) 51
+'{' (123) 2 3 25 26 27 28 29
+'|' (124) 50
+'}' (125) 2 3 25 26 27 28 29
 error (256)
 declblock (258) 2
 codeblock (259) 3
-DIGIT (260) 24
-NUMBER (261) 25
-IDENTIFIER (262) 9 10 18 22 23 31 32
+DIGIT (260) 23
+NUMBER (261) 24
+IDENTIFIER (262) 9 10 21 22 30 31
 ETOK (263)
 TYPE (264) 6
-TEXT (265) 40
-IF (266) 26 27 32
-ELSE (267) 26
-WHILE (268) 28
-FOR (269) 29 30
-GOTO (270) 31 32
-PRINT (271) 36
-PRINTLN (272) 37
-READ (273) 33
-LOGEQ (274) 44
-LOGOR (275) 42
-LEQ (276) 48
-NOTEQ (277) 45
-GEQ (278) 46
-LOGAND (279) 43
+TEXT (265) 39
+IF (266) 25 26 31
+ELSE (267) 25
+WHILE (268) 27
+FOR (269) 28 29
+GOTO (270) 30 31
+PRINT (271) 35
+PRINTLN (272) 36
+READ (273) 32
+LOGEQ (274) 43
+LOGOR (275) 41
+LEQ (276) 47
+NOTEQ (277) 44
+GEQ (278) 45
+LOGAND (279) 42
 
 
 Nonterminals, with rules where they appear
@@ -158,37 +157,37 @@ expr (51)
 variables (52)
     on left: 9 10, on right: 7 8
 statement_list (53)
-    on left: 11 12 13 14 15 16 17 18 19, on right: 3 11 12 13 14 15
-    16 17 18 26 27 28 29 30
+    on left: 11 12 13 14 15 16 17 18, on right: 3 11 12 13 14 15 16
+    17 25 26 27 28 29 30 31
 stmt (54)
-    on left: 20 21, on right: 17 20
+    on left: 19 20, on right: 17 19
 VARIABLE (55)
-    on left: 22 23, on right: 20 29 30 34 35 41 60
+    on left: 21 22, on right: 19 28 29 33 34 40 59
 VALUE (56)
-    on left: 24 25, on right: 9 29 30 61
+    on left: 23 24, on right: 9 28 29 60
 condition (57)
-    on left: 26 27, on right: 14
+    on left: 25 26, on right: 14
 whileloop (58)
-    on left: 28, on right: 12
+    on left: 27, on right: 12
 forloop (59)
-    on left: 29 30, on right: 11
+    on left: 28 29, on right: 11
 gotoloop (60)
-    on left: 31 32, on right: 13
+    on left: 30 31, on right: 13
 read (61)
-    on left: 33, on right: 16
+    on left: 32, on right: 16
 readvars (62)
-    on left: 34 35, on right: 33 34
+    on left: 33 34, on right: 32 33
 print (63)
-    on left: 36 37, on right: 15
+    on left: 35 36, on right: 15
 printstmt (64)
-    on left: 38 39, on right: 36 37 38
+    on left: 37 38, on right: 35 36 37
 prt (65)
-    on left: 40 41, on right: 38 39
+    on left: 39 40, on right: 37 38
 boolexpression (66)
-    on left: 42 43 44 45 46 47 48 49 50, on right: 26 27 28 32 50
+    on left: 41 42 43 44 45 46 47 48 49, on right: 25 26 27 31 49
 expression (67)
-    on left: 51 52 53 54 55 56 57 58 59 60 61, on right: 21 23 42 43
-    44 45 46 47 48 49 51 52 53 54 55 56 57 58 59
+    on left: 50 51 52 53 54 55 56 57 58 59 60, on right: 20 22 41 42
+    43 44 45 46 47 48 50 51 52 53 54 55 56 57 58
 
 
 State 0
@@ -291,25 +290,24 @@ State 11
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 28
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 27
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
 State 12
@@ -317,7 +315,7 @@ State 12
     9 variables: IDENTIFIER . '[' VALUE ']'
    10          | IDENTIFIER .
 
-    '['  shift, and go to state 39
+    '['  shift, and go to state 38
 
     $default  reduce using rule 10 (variables)
 
@@ -334,7 +332,7 @@ State 14
     7 expr: variables . ',' expr
     8     | variables .
 
-    ','  shift, and go to state 40
+    ','  shift, and go to state 39
 
     $default  reduce using rule 8 (expr)
 
@@ -354,165 +352,158 @@ State 16
 
     $default  reduce using rule 5 (declaration_list)
 
-    declaration_list  go to state 41
+    declaration_list  go to state 40
     decl_stmt         go to state 10
 
 
 State 17
 
-   24 VALUE: DIGIT .
+   23 VALUE: DIGIT .
 
-    $default  reduce using rule 24 (VALUE)
+    $default  reduce using rule 23 (VALUE)
 
 
 State 18
 
-   25 VALUE: NUMBER .
+   24 VALUE: NUMBER .
 
-    $default  reduce using rule 25 (VALUE)
+    $default  reduce using rule 24 (VALUE)
 
 
 State 19
 
-   18 statement_list: IDENTIFIER . ':' statement_list
-   22 VARIABLE: IDENTIFIER .
-   23         | IDENTIFIER . '[' expression ']'
+   21 VARIABLE: IDENTIFIER .
+   22         | IDENTIFIER . '[' expression ']'
+   30 gotoloop: IDENTIFIER . ':' statement_list GOTO IDENTIFIER
+   31         | IDENTIFIER . ':' statement_list GOTO IDENTIFIER IF boolexpression
 
-    '['  shift, and go to state 42
-    ':'  shift, and go to state 43
+    '['  shift, and go to state 41
+    ':'  shift, and go to state 42
 
-    $default  reduce using rule 22 (VARIABLE)
+    $default  reduce using rule 21 (VARIABLE)
 
 
 State 20
 
-   26 condition: IF . boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
-   27          | IF . boolexpression '{' statement_list '}'
+   25 condition: IF . boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
+   26          | IF . boolexpression '{' statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 45
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 44
 
-    VARIABLE        go to state 46
-    VALUE           go to state 31
-    boolexpression  go to state 47
-    expression      go to state 48
+    VARIABLE        go to state 45
+    VALUE           go to state 30
+    boolexpression  go to state 46
+    expression      go to state 47
 
 
 State 21
 
-   28 whileloop: WHILE . boolexpression '{' statement_list '}'
+   27 whileloop: WHILE . boolexpression '{' statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 45
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 44
 
-    VARIABLE        go to state 46
-    VALUE           go to state 31
-    boolexpression  go to state 49
-    expression      go to state 48
+    VARIABLE        go to state 45
+    VALUE           go to state 30
+    boolexpression  go to state 48
+    expression      go to state 47
 
 
 State 22
 
-   29 forloop: FOR . VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR . VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'
+   28 forloop: FOR . VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR . VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'
 
-    IDENTIFIER  shift, and go to state 44
+    IDENTIFIER  shift, and go to state 43
 
-    VARIABLE  go to state 50
+    VARIABLE  go to state 49
 
 
 State 23
 
-   31 gotoloop: GOTO . IDENTIFIER
-   32         | GOTO . IDENTIFIER IF boolexpression
+   35 print: PRINT . printstmt
 
-    IDENTIFIER  shift, and go to state 51
+    IDENTIFIER  shift, and go to state 43
+    TEXT        shift, and go to state 50
+
+    VARIABLE   go to state 51
+    printstmt  go to state 52
+    prt        go to state 53
 
 
 State 24
 
-   36 print: PRINT . printstmt
+   36 print: PRINTLN . printstmt
 
-    IDENTIFIER  shift, and go to state 44
-    TEXT        shift, and go to state 52
+    IDENTIFIER  shift, and go to state 43
+    TEXT        shift, and go to state 50
 
-    VARIABLE   go to state 53
+    VARIABLE   go to state 51
     printstmt  go to state 54
-    prt        go to state 55
+    prt        go to state 53
 
 
 State 25
 
-   37 print: PRINTLN . printstmt
+   32 read: READ . readvars
 
-    IDENTIFIER  shift, and go to state 44
-    TEXT        shift, and go to state 52
+    IDENTIFIER  shift, and go to state 43
 
-    VARIABLE   go to state 53
-    printstmt  go to state 56
-    prt        go to state 55
+    VARIABLE  go to state 55
+    readvars  go to state 56
 
 
 State 26
 
-   33 read: READ . readvars
+   58 expression: '(' . expression ')'
 
-    IDENTIFIER  shift, and go to state 44
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE  go to state 57
-    readvars  go to state 58
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 57
 
 
 State 27
 
-   59 expression: '(' . expression ')'
+    3 code_block: codeblock '{' statement_list . '}'
 
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
-
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 59
+    '}'  shift, and go to state 58
 
 
 State 28
 
-    3 code_block: codeblock '{' statement_list . '}'
+   17 statement_list: stmt . ';' statement_list
 
-    '}'  shift, and go to state 60
+    ';'  shift, and go to state 59
 
 
 State 29
 
-   17 statement_list: stmt . ';' statement_list
+   19 stmt: VARIABLE . '=' stmt
+   59 expression: VARIABLE .
 
-    ';'  shift, and go to state 61
+    '='  shift, and go to state 60
+
+    $default  reduce using rule 59 (expression)
 
 
 State 30
 
-   20 stmt: VARIABLE . '=' stmt
-   60 expression: VARIABLE .
-
-    '='  shift, and go to state 62
+   60 expression: VALUE .
 
     $default  reduce using rule 60 (expression)
 
 
 State 31
-
-   61 expression: VALUE .
-
-    $default  reduce using rule 61 (expression)
-
-
-State 32
 
    14 statement_list: condition . statement_list
 
@@ -522,28 +513,27 @@ State 32
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 63
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 61
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 33
+State 32
 
    12 statement_list: whileloop . statement_list
 
@@ -553,28 +543,27 @@ State 33
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 64
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 62
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 34
+State 33
 
    11 statement_list: forloop . statement_list
 
@@ -584,116 +573,116 @@ State 34
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 65
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 63
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
+
+
+State 34
+
+   13 statement_list: gotoloop . ';' statement_list
+
+    ';'  shift, and go to state 64
 
 
 State 35
 
-   13 statement_list: gotoloop . ';' statement_list
+   16 statement_list: read . ';' statement_list
 
-    ';'  shift, and go to state 66
+    ';'  shift, and go to state 65
 
 
 State 36
 
-   16 statement_list: read . ';' statement_list
+   15 statement_list: print . ';' statement_list
 
-    ';'  shift, and go to state 67
+    ';'  shift, and go to state 66
 
 
 State 37
 
-   15 statement_list: print . ';' statement_list
+   20 stmt: expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    ';'  shift, and go to state 68
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+
+    $default  reduce using rule 20 (stmt)
 
 
 State 38
-
-   21 stmt: expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
-
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-
-    $default  reduce using rule 21 (stmt)
-
-
-State 39
 
     9 variables: IDENTIFIER '[' . VALUE ']'
 
     DIGIT   shift, and go to state 17
     NUMBER  shift, and go to state 18
 
-    VALUE  go to state 77
+    VALUE  go to state 75
 
 
-State 40
+State 39
 
     7 expr: variables ',' . expr
 
     IDENTIFIER  shift, and go to state 12
 
-    expr       go to state 78
+    expr       go to state 76
     variables  go to state 14
 
 
-State 41
+State 40
 
     4 declaration_list: decl_stmt ';' declaration_list .
 
     $default  reduce using rule 4 (declaration_list)
 
 
-State 42
+State 41
 
-   23 VARIABLE: IDENTIFIER '[' . expression ']'
+   22 VARIABLE: IDENTIFIER '[' . expression ']'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 79
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 77
 
 
-State 43
+State 42
 
-   18 statement_list: IDENTIFIER ':' . statement_list
+   30 gotoloop: IDENTIFIER ':' . statement_list GOTO IDENTIFIER
+   31         | IDENTIFIER ':' . statement_list GOTO IDENTIFIER IF boolexpression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -701,219 +690,208 @@ State 43
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 80
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 78
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
+
+
+State 43
+
+   21 VARIABLE: IDENTIFIER .
+   22         | IDENTIFIER . '[' expression ']'
+
+    '['  shift, and go to state 41
+
+    $default  reduce using rule 21 (VARIABLE)
 
 
 State 44
 
-   22 VARIABLE: IDENTIFIER .
-   23         | IDENTIFIER . '[' expression ']'
+   49 boolexpression: '(' . boolexpression ')'
+   58 expression: '(' . expression ')'
 
-    '['  shift, and go to state 42
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 44
 
-    $default  reduce using rule 22 (VARIABLE)
+    VARIABLE        go to state 45
+    VALUE           go to state 30
+    boolexpression  go to state 79
+    expression      go to state 80
 
 
 State 45
 
-   50 boolexpression: '(' . boolexpression ')'
-   59 expression: '(' . expression ')'
+   59 expression: VARIABLE .
 
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 45
-
-    VARIABLE        go to state 46
-    VALUE           go to state 31
-    boolexpression  go to state 81
-    expression      go to state 82
+    $default  reduce using rule 59 (expression)
 
 
 State 46
 
-   60 expression: VARIABLE .
+   25 condition: IF boolexpression . '{' statement_list '}' ELSE '{' statement_list '}'
+   26          | IF boolexpression . '{' statement_list '}'
 
-    $default  reduce using rule 60 (expression)
+    '{'  shift, and go to state 81
 
 
 State 47
 
-   26 condition: IF boolexpression . '{' statement_list '}' ELSE '{' statement_list '}'
-   27          | IF boolexpression . '{' statement_list '}'
+   41 boolexpression: expression . LOGOR expression
+   42               | expression . LOGAND expression
+   43               | expression . LOGEQ expression
+   44               | expression . NOTEQ expression
+   45               | expression . GEQ expression
+   46               | expression . '>' expression
+   47               | expression . LEQ expression
+   48               | expression . '<' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '{'  shift, and go to state 83
+    LOGEQ   shift, and go to state 82
+    LOGOR   shift, and go to state 83
+    LEQ     shift, and go to state 84
+    NOTEQ   shift, and go to state 85
+    GEQ     shift, and go to state 86
+    LOGAND  shift, and go to state 87
+    '|'     shift, and go to state 67
+    '^'     shift, and go to state 68
+    '&'     shift, and go to state 69
+    '>'     shift, and go to state 88
+    '<'     shift, and go to state 89
+    '-'     shift, and go to state 70
+    '+'     shift, and go to state 71
+    '%'     shift, and go to state 72
+    '/'     shift, and go to state 73
+    '*'     shift, and go to state 74
 
 
 State 48
 
-   42 boolexpression: expression . LOGOR expression
-   43               | expression . LOGAND expression
-   44               | expression . LOGEQ expression
-   45               | expression . NOTEQ expression
-   46               | expression . GEQ expression
-   47               | expression . '>' expression
-   48               | expression . LEQ expression
-   49               | expression . '<' expression
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   27 whileloop: WHILE boolexpression . '{' statement_list '}'
 
-    LOGEQ   shift, and go to state 84
-    LOGOR   shift, and go to state 85
-    LEQ     shift, and go to state 86
-    NOTEQ   shift, and go to state 87
-    GEQ     shift, and go to state 88
-    LOGAND  shift, and go to state 89
-    '|'     shift, and go to state 69
-    '^'     shift, and go to state 70
-    '&'     shift, and go to state 71
-    '>'     shift, and go to state 90
-    '<'     shift, and go to state 91
-    '-'     shift, and go to state 72
-    '+'     shift, and go to state 73
-    '%'     shift, and go to state 74
-    '/'     shift, and go to state 75
-    '*'     shift, and go to state 76
+    '{'  shift, and go to state 90
 
 
 State 49
 
-   28 whileloop: WHILE boolexpression . '{' statement_list '}'
+   28 forloop: FOR VARIABLE . '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE . '=' VALUE ',' VALUE '{' statement_list '}'
 
-    '{'  shift, and go to state 92
+    '='  shift, and go to state 91
 
 
 State 50
 
-   29 forloop: FOR VARIABLE . '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE . '=' VALUE ',' VALUE '{' statement_list '}'
+   39 prt: TEXT .
 
-    '='  shift, and go to state 93
+    $default  reduce using rule 39 (prt)
 
 
 State 51
 
-   31 gotoloop: GOTO IDENTIFIER .
-   32         | GOTO IDENTIFIER . IF boolexpression
-
-    IF  shift, and go to state 94
-
-    $default  reduce using rule 31 (gotoloop)
-
-
-State 52
-
-   40 prt: TEXT .
+   40 prt: VARIABLE .
 
     $default  reduce using rule 40 (prt)
 
 
+State 52
+
+   35 print: PRINT printstmt .
+   37 printstmt: printstmt . ',' prt
+
+    ','  shift, and go to state 92
+
+    $default  reduce using rule 35 (print)
+
+
 State 53
 
-   41 prt: VARIABLE .
+   38 printstmt: prt .
 
-    $default  reduce using rule 41 (prt)
+    $default  reduce using rule 38 (printstmt)
 
 
 State 54
 
-   36 print: PRINT printstmt .
-   38 printstmt: printstmt . ',' prt
+   36 print: PRINTLN printstmt .
+   37 printstmt: printstmt . ',' prt
 
-    ','  shift, and go to state 95
+    ','  shift, and go to state 92
 
     $default  reduce using rule 36 (print)
 
 
 State 55
 
-   39 printstmt: prt .
+   33 readvars: VARIABLE . ',' readvars
+   34         | VARIABLE .
 
-    $default  reduce using rule 39 (printstmt)
+    ','  shift, and go to state 93
+
+    $default  reduce using rule 34 (readvars)
 
 
 State 56
 
-   37 print: PRINTLN printstmt .
-   38 printstmt: printstmt . ',' prt
+   32 read: READ readvars .
 
-    ','  shift, and go to state 95
-
-    $default  reduce using rule 37 (print)
+    $default  reduce using rule 32 (read)
 
 
 State 57
 
-   34 readvars: VARIABLE . ',' readvars
-   35         | VARIABLE .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+   58           | '(' expression . ')'
 
-    ','  shift, and go to state 96
-
-    $default  reduce using rule 35 (readvars)
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+    ')'  shift, and go to state 94
 
 
 State 58
-
-   33 read: READ readvars .
-
-    $default  reduce using rule 33 (read)
-
-
-State 59
-
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
-   59           | '(' expression . ')'
-
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-    ')'  shift, and go to state 97
-
-
-State 60
 
     3 code_block: codeblock '{' statement_list '}' .
 
     $default  reduce using rule 3 (code_block)
 
 
-State 61
+State 59
 
    17 statement_list: stmt ';' . statement_list
 
@@ -923,64 +901,63 @@ State 61
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 98
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 95
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 62
+State 60
 
-   20 stmt: VARIABLE '=' . stmt
+   19 stmt: VARIABLE '=' . stmt
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    stmt        go to state 99
-    VARIABLE    go to state 30
-    VALUE       go to state 31
-    expression  go to state 38
+    stmt        go to state 96
+    VARIABLE    go to state 29
+    VALUE       go to state 30
+    expression  go to state 37
 
 
-State 63
+State 61
 
    14 statement_list: condition statement_list .
 
     $default  reduce using rule 14 (statement_list)
 
 
-State 64
+State 62
 
    12 statement_list: whileloop statement_list .
 
     $default  reduce using rule 12 (statement_list)
 
 
-State 65
+State 63
 
    11 statement_list: forloop statement_list .
 
     $default  reduce using rule 11 (statement_list)
 
 
-State 66
+State 64
 
    13 statement_list: gotoloop ';' . statement_list
 
@@ -990,28 +967,27 @@ State 66
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 100
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 97
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 67
+State 65
 
    16 statement_list: read ';' . statement_list
 
@@ -1021,28 +997,27 @@ State 67
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 101
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 98
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 68
+State 66
 
    15 statement_list: print ';' . statement_list
 
@@ -1052,233 +1027,233 @@ State 68
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 102
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 99
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
+
+
+State 67
+
+   50 expression: expression '|' . expression
+
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
+
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 100
+
+
+State 68
+
+   51 expression: expression '^' . expression
+
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
+
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 101
 
 
 State 69
 
-   51 expression: expression '|' . expression
+   52 expression: expression '&' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 103
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 102
 
 
 State 70
 
-   52 expression: expression '^' . expression
+   53 expression: expression '-' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 104
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 103
 
 
 State 71
 
-   53 expression: expression '&' . expression
+   54 expression: expression '+' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 105
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 104
 
 
 State 72
 
-   54 expression: expression '-' . expression
+   55 expression: expression '%' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 106
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 105
 
 
 State 73
 
-   55 expression: expression '+' . expression
+   56 expression: expression '/' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 107
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 106
 
 
 State 74
 
-   56 expression: expression '%' . expression
+   57 expression: expression '*' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 108
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 107
 
 
 State 75
 
-   57 expression: expression '/' . expression
+    9 variables: IDENTIFIER '[' VALUE . ']'
 
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
-
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 109
+    ']'  shift, and go to state 108
 
 
 State 76
-
-   58 expression: expression '*' . expression
-
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
-
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 110
-
-
-State 77
-
-    9 variables: IDENTIFIER '[' VALUE . ']'
-
-    ']'  shift, and go to state 111
-
-
-State 78
 
     7 expr: variables ',' expr .
 
     $default  reduce using rule 7 (expr)
 
 
+State 77
+
+   22 VARIABLE: IDENTIFIER '[' expression . ']'
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+    ']'  shift, and go to state 109
+
+
+State 78
+
+   30 gotoloop: IDENTIFIER ':' statement_list . GOTO IDENTIFIER
+   31         | IDENTIFIER ':' statement_list . GOTO IDENTIFIER IF boolexpression
+
+    GOTO  shift, and go to state 110
+
+
 State 79
 
-   23 VARIABLE: IDENTIFIER '[' expression . ']'
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   49 boolexpression: '(' boolexpression . ')'
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-    ']'  shift, and go to state 112
+    ')'  shift, and go to state 111
 
 
 State 80
 
-   18 statement_list: IDENTIFIER ':' statement_list .
+   41 boolexpression: expression . LOGOR expression
+   42               | expression . LOGAND expression
+   43               | expression . LOGEQ expression
+   44               | expression . NOTEQ expression
+   45               | expression . GEQ expression
+   46               | expression . '>' expression
+   47               | expression . LEQ expression
+   48               | expression . '<' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+   58           | '(' expression . ')'
 
-    $default  reduce using rule 18 (statement_list)
+    LOGEQ   shift, and go to state 82
+    LOGOR   shift, and go to state 83
+    LEQ     shift, and go to state 84
+    NOTEQ   shift, and go to state 85
+    GEQ     shift, and go to state 86
+    LOGAND  shift, and go to state 87
+    '|'     shift, and go to state 67
+    '^'     shift, and go to state 68
+    '&'     shift, and go to state 69
+    '>'     shift, and go to state 88
+    '<'     shift, and go to state 89
+    '-'     shift, and go to state 70
+    '+'     shift, and go to state 71
+    '%'     shift, and go to state 72
+    '/'     shift, and go to state 73
+    '*'     shift, and go to state 74
+    ')'     shift, and go to state 94
 
 
 State 81
 
-   50 boolexpression: '(' boolexpression . ')'
-
-    ')'  shift, and go to state 113
-
-
-State 82
-
-   42 boolexpression: expression . LOGOR expression
-   43               | expression . LOGAND expression
-   44               | expression . LOGEQ expression
-   45               | expression . NOTEQ expression
-   46               | expression . GEQ expression
-   47               | expression . '>' expression
-   48               | expression . LEQ expression
-   49               | expression . '<' expression
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
-   59           | '(' expression . ')'
-
-    LOGEQ   shift, and go to state 84
-    LOGOR   shift, and go to state 85
-    LEQ     shift, and go to state 86
-    NOTEQ   shift, and go to state 87
-    GEQ     shift, and go to state 88
-    LOGAND  shift, and go to state 89
-    '|'     shift, and go to state 69
-    '^'     shift, and go to state 70
-    '&'     shift, and go to state 71
-    '>'     shift, and go to state 90
-    '<'     shift, and go to state 91
-    '-'     shift, and go to state 72
-    '+'     shift, and go to state 73
-    '%'     shift, and go to state 74
-    '/'     shift, and go to state 75
-    '*'     shift, and go to state 76
-    ')'     shift, and go to state 97
-
-
-State 83
-
-   26 condition: IF boolexpression '{' . statement_list '}' ELSE '{' statement_list '}'
-   27          | IF boolexpression '{' . statement_list '}'
+   25 condition: IF boolexpression '{' . statement_list '}' ELSE '{' statement_list '}'
+   26          | IF boolexpression '{' . statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -1286,142 +1261,141 @@ State 83
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 114
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 112
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
+
+
+State 82
+
+   43 boolexpression: expression LOGEQ . expression
+
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
+
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 113
+
+
+State 83
+
+   41 boolexpression: expression LOGOR . expression
+
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
+
+    VARIABLE    go to state 45
+    VALUE       go to state 30
+    expression  go to state 114
 
 
 State 84
 
-   44 boolexpression: expression LOGEQ . expression
+   47 boolexpression: expression LEQ . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 115
 
 
 State 85
 
-   42 boolexpression: expression LOGOR . expression
+   44 boolexpression: expression NOTEQ . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 116
 
 
 State 86
 
-   48 boolexpression: expression LEQ . expression
+   45 boolexpression: expression GEQ . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 117
 
 
 State 87
 
-   45 boolexpression: expression NOTEQ . expression
+   42 boolexpression: expression LOGAND . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 118
 
 
 State 88
 
-   46 boolexpression: expression GEQ . expression
+   46 boolexpression: expression '>' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 119
 
 
 State 89
 
-   43 boolexpression: expression LOGAND . expression
+   48 boolexpression: expression '<' . expression
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 26
 
-    VARIABLE    go to state 46
-    VALUE       go to state 31
+    VARIABLE    go to state 45
+    VALUE       go to state 30
     expression  go to state 120
 
 
 State 90
 
-   47 boolexpression: expression '>' . expression
-
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
-
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 121
-
-
-State 91
-
-   49 boolexpression: expression '<' . expression
-
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 27
-
-    VARIABLE    go to state 46
-    VALUE       go to state 31
-    expression  go to state 122
-
-
-State 92
-
-   28 whileloop: WHILE boolexpression '{' . statement_list '}'
+   27 whileloop: WHILE boolexpression '{' . statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -1429,575 +1403,592 @@ State 92
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
-    statement_list  go to state 123
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    statement_list  go to state 121
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
-State 93
+State 91
 
-   29 forloop: FOR VARIABLE '=' . VALUE ',' VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE '=' . VALUE ',' VALUE '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' . VALUE ',' VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE '=' . VALUE ',' VALUE '{' statement_list '}'
 
     DIGIT   shift, and go to state 17
     NUMBER  shift, and go to state 18
 
-    VALUE  go to state 124
+    VALUE  go to state 122
+
+
+State 92
+
+   37 printstmt: printstmt ',' . prt
+
+    IDENTIFIER  shift, and go to state 43
+    TEXT        shift, and go to state 50
+
+    VARIABLE  go to state 51
+    prt       go to state 123
+
+
+State 93
+
+   33 readvars: VARIABLE ',' . readvars
+
+    IDENTIFIER  shift, and go to state 43
+
+    VARIABLE  go to state 55
+    readvars  go to state 124
 
 
 State 94
 
-   32 gotoloop: GOTO IDENTIFIER IF . boolexpression
+   58 expression: '(' expression ')' .
 
-    DIGIT       shift, and go to state 17
-    NUMBER      shift, and go to state 18
-    IDENTIFIER  shift, and go to state 44
-    '('         shift, and go to state 45
-
-    VARIABLE        go to state 46
-    VALUE           go to state 31
-    boolexpression  go to state 125
-    expression      go to state 48
+    $default  reduce using rule 58 (expression)
 
 
 State 95
-
-   38 printstmt: printstmt ',' . prt
-
-    IDENTIFIER  shift, and go to state 44
-    TEXT        shift, and go to state 52
-
-    VARIABLE  go to state 53
-    prt       go to state 126
-
-
-State 96
-
-   34 readvars: VARIABLE ',' . readvars
-
-    IDENTIFIER  shift, and go to state 44
-
-    VARIABLE  go to state 57
-    readvars  go to state 127
-
-
-State 97
-
-   59 expression: '(' expression ')' .
-
-    $default  reduce using rule 59 (expression)
-
-
-State 98
 
    17 statement_list: stmt ';' statement_list .
 
     $default  reduce using rule 17 (statement_list)
 
 
-State 99
+State 96
 
-   20 stmt: VARIABLE '=' stmt .
+   19 stmt: VARIABLE '=' stmt .
 
-    $default  reduce using rule 20 (stmt)
+    $default  reduce using rule 19 (stmt)
 
 
-State 100
+State 97
 
    13 statement_list: gotoloop ';' statement_list .
 
     $default  reduce using rule 13 (statement_list)
 
 
-State 101
+State 98
 
    16 statement_list: read ';' statement_list .
 
     $default  reduce using rule 16 (statement_list)
 
 
-State 102
+State 99
 
    15 statement_list: print ';' statement_list .
 
     $default  reduce using rule 15 (statement_list)
 
 
-State 103
+State 100
 
-   51 expression: expression . '|' expression
-   51           | expression '|' expression .
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   50           | expression '|' expression .
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+
+    $default  reduce using rule 50 (expression)
+
+
+State 101
+
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   51           | expression '^' expression .
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 51 (expression)
 
 
-State 104
+State 102
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   52           | expression '^' expression .
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   52           | expression '&' expression .
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 52 (expression)
 
 
-State 105
+State 103
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   53           | expression '&' expression .
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   53           | expression '-' expression .
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 53 (expression)
 
 
-State 106
+State 104
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   54           | expression '-' expression .
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   54           | expression '+' expression .
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 54 (expression)
 
 
-State 107
+State 105
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   55           | expression '+' expression .
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   55           | expression '%' expression .
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 55 (expression)
 
 
-State 108
+State 106
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   56           | expression '%' expression .
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   56           | expression '/' expression .
+   57           | expression . '*' expression
 
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 56 (expression)
 
 
-State 109
+State 107
 
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   57           | expression '/' expression .
-   58           | expression . '*' expression
-
-    '*'  shift, and go to state 76
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+   57           | expression '*' expression .
 
     $default  reduce using rule 57 (expression)
 
 
-State 110
-
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
-   58           | expression '*' expression .
-
-    $default  reduce using rule 58 (expression)
-
-
-State 111
+State 108
 
     9 variables: IDENTIFIER '[' VALUE ']' .
 
     $default  reduce using rule 9 (variables)
 
 
+State 109
+
+   22 VARIABLE: IDENTIFIER '[' expression ']' .
+
+    $default  reduce using rule 22 (VARIABLE)
+
+
+State 110
+
+   30 gotoloop: IDENTIFIER ':' statement_list GOTO . IDENTIFIER
+   31         | IDENTIFIER ':' statement_list GOTO . IDENTIFIER IF boolexpression
+
+    IDENTIFIER  shift, and go to state 125
+
+
+State 111
+
+   49 boolexpression: '(' boolexpression ')' .
+
+    $default  reduce using rule 49 (boolexpression)
+
+
 State 112
 
-   23 VARIABLE: IDENTIFIER '[' expression ']' .
+   25 condition: IF boolexpression '{' statement_list . '}' ELSE '{' statement_list '}'
+   26          | IF boolexpression '{' statement_list . '}'
 
-    $default  reduce using rule 23 (VARIABLE)
+    '}'  shift, and go to state 126
 
 
 State 113
 
-   50 boolexpression: '(' boolexpression ')' .
+   43 boolexpression: expression LOGEQ expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    $default  reduce using rule 50 (boolexpression)
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+
+    $default  reduce using rule 43 (boolexpression)
 
 
 State 114
 
-   26 condition: IF boolexpression '{' statement_list . '}' ELSE '{' statement_list '}'
-   27          | IF boolexpression '{' statement_list . '}'
+   41 boolexpression: expression LOGOR expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '}'  shift, and go to state 128
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+
+    $default  reduce using rule 41 (boolexpression)
 
 
 State 115
 
-   44 boolexpression: expression LOGEQ expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   47 boolexpression: expression LEQ expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
-    $default  reduce using rule 44 (boolexpression)
+    $default  reduce using rule 47 (boolexpression)
 
 
 State 116
 
-   42 boolexpression: expression LOGOR expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   44 boolexpression: expression NOTEQ expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
-    $default  reduce using rule 42 (boolexpression)
+    $default  reduce using rule 44 (boolexpression)
 
 
 State 117
 
-   48 boolexpression: expression LEQ expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   45 boolexpression: expression GEQ expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-
-    $default  reduce using rule 48 (boolexpression)
-
-
-State 118
-
-   45 boolexpression: expression NOTEQ expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
-
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 45 (boolexpression)
 
 
+State 118
+
+   42 boolexpression: expression LOGAND expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
+
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
+
+    $default  reduce using rule 42 (boolexpression)
+
+
 State 119
 
-   46 boolexpression: expression GEQ expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   46 boolexpression: expression '>' expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
     $default  reduce using rule 46 (boolexpression)
 
 
 State 120
 
-   43 boolexpression: expression LOGAND expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   48 boolexpression: expression '<' expression .
+   50 expression: expression . '|' expression
+   51           | expression . '^' expression
+   52           | expression . '&' expression
+   53           | expression . '-' expression
+   54           | expression . '+' expression
+   55           | expression . '%' expression
+   56           | expression . '/' expression
+   57           | expression . '*' expression
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
+    '|'  shift, and go to state 67
+    '^'  shift, and go to state 68
+    '&'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '+'  shift, and go to state 71
+    '%'  shift, and go to state 72
+    '/'  shift, and go to state 73
+    '*'  shift, and go to state 74
 
-    $default  reduce using rule 43 (boolexpression)
+    $default  reduce using rule 48 (boolexpression)
 
 
 State 121
 
-   47 boolexpression: expression '>' expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   27 whileloop: WHILE boolexpression '{' statement_list . '}'
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-
-    $default  reduce using rule 47 (boolexpression)
+    '}'  shift, and go to state 127
 
 
 State 122
 
-   49 boolexpression: expression '<' expression .
-   51 expression: expression . '|' expression
-   52           | expression . '^' expression
-   53           | expression . '&' expression
-   54           | expression . '-' expression
-   55           | expression . '+' expression
-   56           | expression . '%' expression
-   57           | expression . '/' expression
-   58           | expression . '*' expression
+   28 forloop: FOR VARIABLE '=' VALUE . ',' VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE '=' VALUE . ',' VALUE '{' statement_list '}'
 
-    '|'  shift, and go to state 69
-    '^'  shift, and go to state 70
-    '&'  shift, and go to state 71
-    '-'  shift, and go to state 72
-    '+'  shift, and go to state 73
-    '%'  shift, and go to state 74
-    '/'  shift, and go to state 75
-    '*'  shift, and go to state 76
-
-    $default  reduce using rule 49 (boolexpression)
+    ','  shift, and go to state 128
 
 
 State 123
 
-   28 whileloop: WHILE boolexpression '{' statement_list . '}'
+   37 printstmt: printstmt ',' prt .
 
-    '}'  shift, and go to state 129
+    $default  reduce using rule 37 (printstmt)
 
 
 State 124
 
-   29 forloop: FOR VARIABLE '=' VALUE . ',' VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE '=' VALUE . ',' VALUE '{' statement_list '}'
+   33 readvars: VARIABLE ',' readvars .
 
-    ','  shift, and go to state 130
+    $default  reduce using rule 33 (readvars)
 
 
 State 125
 
-   32 gotoloop: GOTO IDENTIFIER IF boolexpression .
+   30 gotoloop: IDENTIFIER ':' statement_list GOTO IDENTIFIER .
+   31         | IDENTIFIER ':' statement_list GOTO IDENTIFIER . IF boolexpression
 
-    $default  reduce using rule 32 (gotoloop)
+    IF  shift, and go to state 129
+
+    $default  reduce using rule 30 (gotoloop)
 
 
 State 126
 
-   38 printstmt: printstmt ',' prt .
+   25 condition: IF boolexpression '{' statement_list '}' . ELSE '{' statement_list '}'
+   26          | IF boolexpression '{' statement_list '}' .
 
-    $default  reduce using rule 38 (printstmt)
+    ELSE  shift, and go to state 130
+
+    $default  reduce using rule 26 (condition)
 
 
 State 127
 
-   34 readvars: VARIABLE ',' readvars .
+   27 whileloop: WHILE boolexpression '{' statement_list '}' .
 
-    $default  reduce using rule 34 (readvars)
+    $default  reduce using rule 27 (whileloop)
 
 
 State 128
 
-   26 condition: IF boolexpression '{' statement_list '}' . ELSE '{' statement_list '}'
-   27          | IF boolexpression '{' statement_list '}' .
-
-    ELSE  shift, and go to state 131
-
-    $default  reduce using rule 27 (condition)
-
-
-State 129
-
-   28 whileloop: WHILE boolexpression '{' statement_list '}' .
-
-    $default  reduce using rule 28 (whileloop)
-
-
-State 130
-
-   29 forloop: FOR VARIABLE '=' VALUE ',' . VALUE ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE '=' VALUE ',' . VALUE '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' . VALUE ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE '=' VALUE ',' . VALUE '{' statement_list '}'
 
     DIGIT   shift, and go to state 17
     NUMBER  shift, and go to state 18
 
-    VALUE  go to state 132
+    VALUE  go to state 131
 
 
-State 131
+State 129
 
-   26 condition: IF boolexpression '{' statement_list '}' ELSE . '{' statement_list '}'
+   31 gotoloop: IDENTIFIER ':' statement_list GOTO IDENTIFIER IF . boolexpression
+
+    DIGIT       shift, and go to state 17
+    NUMBER      shift, and go to state 18
+    IDENTIFIER  shift, and go to state 43
+    '('         shift, and go to state 44
+
+    VARIABLE        go to state 45
+    VALUE           go to state 30
+    boolexpression  go to state 132
+    expression      go to state 47
+
+
+State 130
+
+   25 condition: IF boolexpression '{' statement_list '}' ELSE . '{' statement_list '}'
 
     '{'  shift, and go to state 133
 
 
-State 132
+State 131
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE . ',' VALUE '{' statement_list '}'
-   30        | FOR VARIABLE '=' VALUE ',' VALUE . '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE . ',' VALUE '{' statement_list '}'
+   29        | FOR VARIABLE '=' VALUE ',' VALUE . '{' statement_list '}'
 
     '{'  shift, and go to state 134
     ','  shift, and go to state 135
 
 
+State 132
+
+   31 gotoloop: IDENTIFIER ':' statement_list GOTO IDENTIFIER IF boolexpression .
+
+    $default  reduce using rule 31 (gotoloop)
+
+
 State 133
 
-   26 condition: IF boolexpression '{' statement_list '}' ELSE '{' . statement_list '}'
+   25 condition: IF boolexpression '{' statement_list '}' ELSE '{' . statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -2005,30 +1996,29 @@ State 133
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
     statement_list  go to state 136
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
 State 134
 
-   30 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' . statement_list '}'
+   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' . statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -2036,30 +2026,29 @@ State 134
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
     statement_list  go to state 137
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
 State 135
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' . VALUE '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' . VALUE '{' statement_list '}'
 
     DIGIT   shift, and go to state 17
     NUMBER  shift, and go to state 18
@@ -2069,42 +2058,42 @@ State 135
 
 State 136
 
-   26 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list . '}'
+   25 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list . '}'
 
     '}'  shift, and go to state 139
 
 
 State 137
 
-   30 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list . '}'
+   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list . '}'
 
     '}'  shift, and go to state 140
 
 
 State 138
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE . '{' statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE . '{' statement_list '}'
 
     '{'  shift, and go to state 141
 
 
 State 139
 
-   26 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}' .
+   25 condition: IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}' .
 
-    $default  reduce using rule 26 (condition)
+    $default  reduce using rule 25 (condition)
 
 
 State 140
 
-   30 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}' .
+   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}' .
 
-    $default  reduce using rule 30 (forloop)
+    $default  reduce using rule 29 (forloop)
 
 
 State 141
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' . statement_list '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' . statement_list '}'
 
     DIGIT       shift, and go to state 17
     NUMBER      shift, and go to state 18
@@ -2112,36 +2101,35 @@ State 141
     IF          shift, and go to state 20
     WHILE       shift, and go to state 21
     FOR         shift, and go to state 22
-    GOTO        shift, and go to state 23
-    PRINT       shift, and go to state 24
-    PRINTLN     shift, and go to state 25
-    READ        shift, and go to state 26
-    '('         shift, and go to state 27
+    PRINT       shift, and go to state 23
+    PRINTLN     shift, and go to state 24
+    READ        shift, and go to state 25
+    '('         shift, and go to state 26
 
-    $default  reduce using rule 19 (statement_list)
+    $default  reduce using rule 18 (statement_list)
 
     statement_list  go to state 142
-    stmt            go to state 29
-    VARIABLE        go to state 30
-    VALUE           go to state 31
-    condition       go to state 32
-    whileloop       go to state 33
-    forloop         go to state 34
-    gotoloop        go to state 35
-    read            go to state 36
-    print           go to state 37
-    expression      go to state 38
+    stmt            go to state 28
+    VARIABLE        go to state 29
+    VALUE           go to state 30
+    condition       go to state 31
+    whileloop       go to state 32
+    forloop         go to state 33
+    gotoloop        go to state 34
+    read            go to state 35
+    print           go to state 36
+    expression      go to state 37
 
 
 State 142
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list . '}'
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list . '}'
 
     '}'  shift, and go to state 143
 
 
 State 143
 
-   29 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}' .
+   28 forloop: FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}' .
 
-    $default  reduce using rule 29 (forloop)
+    $default  reduce using rule 28 (forloop)

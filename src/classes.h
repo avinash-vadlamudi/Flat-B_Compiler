@@ -488,13 +488,14 @@ public:
 class GoToLoop:public Statements
 {
 private:
-  string name;
+  string name1;
+  string name2;
   class BoolExpression *reqd_expr;
   class Statement_list* list1;
   int val;
 public:
-  GoToLoop(string);
-  GoToLoop(string,class BoolExpression*);
+  GoToLoop(string,class Statement_list*,string);
+  GoToLoop(string,class Statement_list*,string,class BoolExpression*);
   void traverse();
   void accept(Visitor V)
   {
