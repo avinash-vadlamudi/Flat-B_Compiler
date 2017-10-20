@@ -112,21 +112,21 @@ public:
   virtual void visit(class Declaration_list*)=0;
   virtual void visit(class Decl_block*)=0;
   //virtual int visit(class Expr2*)=0;
-  virtual void visit(class Variables2* )=0;
+  virtual int visit(class Variables2* )=0;
   virtual int visit(class Expression*)=0;
   virtual int visit(class BoolExpression*)=0;
   //void visit(class Statements*);
-  virtual void visit(class Stmt*)=0;
-  virtual void visit(class Statement_list*)=0;
-  virtual void visit(class Condition*)=0;
-  virtual void visit(class WhileLoop*)=0;
-  virtual void visit(class ForLoop*)=0;
-  virtual void visit(class Prt*)=0;
-  virtual void visit(class PrintStmt*)=0;
-  virtual void visit(class Print*)=0;
-  virtual void visit(class ReadVars*)=0;
-  virtual void visit(class Read*)=0;
-  virtual void visit(class GoToLoop*)=0;
+  virtual int visit(class Stmt*)=0;
+  virtual int visit(class Statement_list*)=0;
+  virtual int visit(class Condition*)=0;
+  virtual int visit(class WhileLoop*)=0;
+  virtual int visit(class ForLoop*)=0;
+  virtual int visit(class Prt*)=0;
+  virtual int visit(class PrintStmt*)=0;
+  virtual int visit(class Print*)=0;
+  virtual int visit(class ReadVars*)=0;
+  virtual int visit(class Read*)=0;
+  virtual int visit(class GoToLoop*)=0;
   virtual void visit(class Code_block*)=0;
   virtual void visit(class Program*)=0;
 };
@@ -145,21 +145,21 @@ public:
   void visit(class Declaration_list*);
   void visit(class Decl_block*);
   //virtual int visit(class Expr2*){};
-  void visit(class Variables2* );
+  int visit(class Variables2* );
   int visit(class Expression*);
   int visit(class BoolExpression*);
   //void visit(class Statements*);
-  void visit(class Stmt*);
-  void visit(class Statement_list*);
-  void visit(class Condition*);
-  void visit(class WhileLoop*);
-  void visit(class ForLoop*);
-  void visit(class Prt*);
-  void visit(class PrintStmt*);
-  void visit(class Print*);
-  void visit(class ReadVars*);
-  void visit(class Read*);
-  void visit(class GoToLoop*);
+  int visit(class Stmt*);
+  int visit(class Statement_list*);
+  int visit(class Condition*);
+  int visit(class WhileLoop*);
+  int visit(class ForLoop*);
+  int visit(class Prt*);
+  int visit(class PrintStmt*);
+  int visit(class Print*);
+  int visit(class ReadVars*);
+  int visit(class Read*);
+  int visit(class GoToLoop*);
   void visit(class Code_block*);
   void visit(class Program*);
 
@@ -289,9 +289,10 @@ public:
 public:
   Variables2(string);
   Variables2(string,class Expression*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
     V->visit(this);
+    return 0;
   }
 };
 
@@ -337,7 +338,12 @@ public:
 class Statements:public Astnode
 {
 public:
-    virtual void accept(class Visitor *V) = 0;
+    virtual int accept(class Visitor *V) = 0;
+    virtual class Statement_list* getptr()
+    {
+      
+    }
+
 };
 
 class Stmt:public Statements
@@ -350,9 +356,10 @@ public:
   Stmt(class Expression*);
   vector<class Variables2*> getlist();
   class Expression * getexpr();
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
     V->visit(this);
+    return 0;
   }
 };
 
@@ -361,14 +368,18 @@ class Statement_list:public Astnode
 public:
   class Statements* list1;
   string name;
+  int count;
+  string type;
   class Statement_list* list2;
+  class Statement_list* list3;
 public:
-  Statement_list(class Statements*,class Statement_list*);
+  Statement_list(class Statements*,class Statement_list*,string);
   Statement_list(string,class Statement_list*);
   Statement_list();
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    int temp = V->visit(this);
+    return temp;
   }
 };
 
@@ -382,9 +393,9 @@ public:
 public:
   Condition(class BoolExpression*,class Statement_list*,class Statement_list*);
   Condition(class BoolExpression*,class Statement_list*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -396,9 +407,9 @@ public:
   class BoolExpression *reqd_expr;
 public:
   WhileLoop(class BoolExpression*,class Statement_list*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -413,9 +424,9 @@ public:
 public:
   ForLoop(class Variables2*,int,int,int,class Statement_list*);
   ForLoop(class Variables2*, int ,int ,class Statement_list*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -427,9 +438,9 @@ public:
 public:
   Prt(string);
   Prt(class Variables2*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -441,9 +452,9 @@ public:
   PrintStmt(class Prt*,class PrintStmt*);
   PrintStmt(class Prt*);
   vector<class Prt*> getlist();
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -454,9 +465,9 @@ public:
   class PrintStmt *reqd;
 public:
   Print(class PrintStmt *,int);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -468,9 +479,9 @@ public:
   ReadVars(class Variables2*,class ReadVars*);
   ReadVars(class Variables2*);
   vector<class Variables2*> getlist();
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
@@ -480,26 +491,31 @@ public:
   vector<class Variables2 *> list;
 public:
   Read(class ReadVars*);
-  void accept(Visitor *V)
+  int accept(Visitor *V)
   {
-    V->visit(this);
+    return V->visit(this);
   }
 };
 
 class GoToLoop:public Statements
 {
 public:
-  string name1;
-  string name2;
+  string name;
   class BoolExpression *reqd_expr;
   class Statement_list* list1;
   int val;
 public:
-  GoToLoop(string,class Statement_list*,string);
-  GoToLoop(string,class Statement_list*,string,class BoolExpression*);
-  void accept(Visitor *V)
+  GoToLoop(string);
+  GoToLoop(string,class BoolExpression*);
+  class Statement_list* getptr()
   {
-    V->visit(this);
+    class Statement_list* list_temp;
+    list_temp = list1;
+    return list1;
+  }
+  int accept(Visitor *V)
+  {
+    return V->visit(this);
   }
 };
 

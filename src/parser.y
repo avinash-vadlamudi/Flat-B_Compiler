@@ -114,13 +114,14 @@ variables : IDENTIFIER '[' VALUE ']' {$$ = new Variables(string($1),$3,1);}
 	  ;
 
 
-statement_list : forloop statement_list {$$ = new Statement_list($1,$2);}
-	       | whileloop statement_list {$$ = new Statement_list($1,$2);}
-	       | gotoloop ';' statement_list {$$ = new Statement_list($1,$3);}
-	       | condition statement_list {$$ = new Statement_list($1,$2);}
-	       | print ';' statement_list {$$ = new Statement_list($1,$3);}
-	       | read ';' statement_list {$$ = new Statement_list($1,$3);}
-	       | stmt ';' statement_list {$$ = new Statement_list($1,$3);}
+statement_list : forloop statement_list {$$ = new Statement_list($1,$2,string("NOT_GOTO"));}
+	       | whileloop statement_list {$$ = new Statement_list($1,$2,string("NOT_GOTO"));}
+	       | gotoloop ';' statement_list {$$ = new Statement_list($1,$3,string("GOTO"));}
+	       | condition statement_list {$$ = new Statement_list($1,$2,string("NOT_GOTO"));}
+         | IDENTIFIER ':' statement_list {$$ = new Statement_list(string($1),$3);}
+	       | print ';' statement_list {$$ = new Statement_list($1,$3,string("NOT_GOTO"));}
+	       | read ';' statement_list {$$ = new Statement_list($1,$3,string("NOT_GOTO"));}
+	       | stmt ';' statement_list {$$ = new Statement_list($1,$3,string("NOT_GOTO"));}
 	       | {$$ = new Statement_list();}
 	       ;
 
@@ -156,9 +157,9 @@ forloop : FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'  {$$
 	| FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8);}
 	;
 
-gotoloop :IDENTIFIER ':' statement_list GOTO IDENTIFIER {$$ = new GoToLoop(string($1),$3,string($5));}
-	 |IDENTIFIER ':' statement_list GOTO IDENTIFIER IF boolexpression  {$$ = new GoToLoop(string($1),$3,string($5),$7);}
-	 ;
+gotoloop :GOTO IDENTIFIER {$$ = new GoToLoop(string($2));}
+	       |GOTO IDENTIFIER IF boolexpression  {$$ = new GoToLoop(string($2),$4);}
+	       ;
 
 read : READ readvars {$$ = new Read($2);}
      ;

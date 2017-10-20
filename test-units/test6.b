@@ -14,6 +14,6 @@ codeblock{
 		}
 	}
 
-	println "i: ", i;
+	println i;
 	print "Sum: ", sum;
 }

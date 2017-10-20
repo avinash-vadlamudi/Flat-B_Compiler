@@ -207,10 +207,10 @@ void Interpreter::visit(Decl_block* vis_var)
     return;
 } */
 
-void Interpreter::visit(class Variables2* vis_var)
+int Interpreter::visit(class Variables2* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
   if(vis_var->reqd_expr == NULL)
   {
     vis_var->ind = 0;
@@ -221,6 +221,7 @@ void Interpreter::visit(class Variables2* vis_var)
     //vis_var->ind = vis_var->reqd_expr->value;
   }
   vis_var->val = symtable->getvalue(vis_var->name,vis_var->ind);
+  return 0;
   //cout<<name<<" "<<type<<" "<<val<<"\n";
 }
 
@@ -283,10 +284,10 @@ int Interpreter::visit(class BoolExpression* vis_var)
 
 } */
 
-void Interpreter::visit(class Stmt* vis_var)
+int Interpreter::visit(class Stmt* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   int temp = vis_var->reqd_expr->accept(Vis);
   //int temp = vis_var->reqd_expr->value;
@@ -295,88 +296,129 @@ void Interpreter::visit(class Stmt* vis_var)
   {
     vis_var->list[i]->accept(Vis);
     if(errors>0)
-    return;
+    return -1;
     symtable->update(vis_var->list[i]->name,vis_var->list[i]->ind,temp);
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class Statement_list* vis_var)
+int Interpreter::visit(class Statement_list* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
+  int temp_check;
 
-  if(vis_var->list1!=NULL)
+  if(vis_var->type == "GOTO")
   {
-    vis_var->list1->accept(Vis);
+    if(vis_var->list1->accept(Vis))
+    {
+        vis_var->list3 = vis_var->list1->getptr();
+        if(vis_var->list3!=NULL)
+          temp_check = vis_var->list3->accept(Vis);
+        return -1;
+    }
+    else
+    {
+      if(temp_check==-1)
+      return -1;
+      if(vis_var->list2!=NULL)
+      temp_check = vis_var->list2->accept(Vis);
+      if(temp_check==-1)
+      return -1;
+    }
   }
-  if(vis_var->list2!=NULL)
+  else
   {
-    vis_var->list2->accept(Vis);
+    if(vis_var->list1!=NULL)
+    {
+      temp_check = vis_var->list1->accept(Vis);
+      if(temp_check==-1)
+      return -1;
+    }
+
+    if(vis_var->list2!=NULL)
+    {
+      if(temp_check==-1)
+      return -1;
+      temp_check = vis_var->list2->accept(Vis);
+      if(temp_check==-1)
+      return -1;
+    }
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class Condition* vis_var)
+int Interpreter::visit(class Condition* vis_var)
 {
   if(errors>0)
-    return;
-
+    return -1;
+  int temp_check;
   vis_var->val = vis_var->reqd_expr->accept(Vis);
   //vis_var->val = vis_var->reqd_expr->value;
   if(vis_var->val==1)
   {
-    vis_var->list1->accept(Vis);
+    temp_check = vis_var->list1->accept(Vis);
+    return temp_check;
   }
   else
   {
     if(vis_var->list2 != NULL)
     {
-      vis_var->list2->accept(Vis);
+      temp_check = vis_var->list2->accept(Vis);
+      return temp_check;
     }
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class WhileLoop* vis_var)
+int Interpreter::visit(class WhileLoop* vis_var)
 {
   if(errors>0)
-    return;
-
+    return -1;
+  int temp_check;
   vis_var->val = vis_var->reqd_expr->accept(Vis);
   //vis_var->val = vis_var->reqd_expr->value;
   while(vis_var->val==1)
   {
-    vis_var->list1->accept(Vis);
+    temp_check = vis_var->list1->accept(Vis);
+    if(temp_check==-1)
+    return -1;
     vis_var->val = vis_var->reqd_expr->accept(Vis);
     //vis_var->val = vis_var->reqd_expr->value;
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class ForLoop* vis_var)
+int Interpreter::visit(class ForLoop* vis_var)
 {
   if(errors>0)
-    return;
-
+    return -1;
+  int temp_check;
   int temp=vis_var->val1;
   vis_var->var->accept(Vis);
   symtable->update(vis_var->var->name,vis_var->var->ind,temp);
 
   while(temp<=vis_var->val3)
   {
-    vis_var->list1->accept(Vis);
+    temp_check = vis_var->list1->accept(Vis);
+    if(temp_check == -1)
+    return temp_check;
     temp = temp + vis_var->val2;
     vis_var->var->accept(Vis);
     symtable->update(vis_var->var->name,vis_var->var->ind,temp);
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class Prt* vis_var)
+int Interpreter::visit(class Prt* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   if(vis_var->text!="")
     cout<<(vis_var->text)<<" ";
@@ -386,36 +428,39 @@ void Interpreter::visit(class Prt* vis_var)
     int temp = vis_var->var->val;
     cout<<temp<<" ";
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class PrintStmt* vis_var)
+int Interpreter::visit(class PrintStmt* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   for(int i=0;i<vis_var->list.size();i++)
   {
     vis_var->list[i]->accept(Vis);
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class Print* vis_var)
+int Interpreter::visit(class Print* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   vis_var->reqd->accept(Vis);
   if(vis_var->type == 1)
   cout<<"\n";
+  return 0;
 
 }
 
-void Interpreter::visit(class ReadVars* vis_var)
+int Interpreter::visit(class ReadVars* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   for(int i=0;i<vis_var->list.size();i++)
   {
@@ -424,13 +469,14 @@ void Interpreter::visit(class ReadVars* vis_var)
     vis_var->list[i]->accept(Vis);
     symtable->update(vis_var->list[i]->name,vis_var->list[i]->ind,temp);
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class Read* vis_var)
+int Interpreter::visit(class Read* vis_var)
 {
   if(errors>0)
-    return;
+    return -1;
 
   for(int i=0;i<vis_var->list.size();i++)
   {
@@ -439,47 +485,45 @@ void Interpreter::visit(class Read* vis_var)
     vis_var->list[i]->accept(Vis);
     symtable->update(vis_var->list[i]->name,vis_var->list[i]->ind,temp);
   }
+  return 0;
 
 }
 
-void Interpreter::visit(class GoToLoop* vis_var)
+int Interpreter::visit(class GoToLoop* vis_var)
 {
   if(errors>0)
-    return;
-
-  if(vis_var->name1!=vis_var->name2)
-  {
-    errors++;
-    cout<<"Identifiers doesn't match: "<<vis_var->name1<<" "<<vis_var->name2<<endl;
-    return;
-  }
+    return -1;
+  vis_var->list1 = symtable2->getptr(vis_var->name);
+  if(errors>0)
+  return -1;
   if(vis_var->reqd_expr!=NULL)
   {
     int temp = vis_var->reqd_expr->accept(Vis);
     //int temp = vis_var->reqd_expr->value;
-    while(temp==1)
+    vis_var->val = temp;
+    if(vis_var->val)
     {
-      vis_var->list1->accept(Vis);
-      temp = vis_var->reqd_expr->accept(Vis);
+      //vis_var->list1->accept(Vis);
+      //temp = vis_var->reqd_expr->accept(Vis);
       //int temp = vis_var->reqd_expr->value;
     }
   }
   else
   {
-    while(1)
-      vis_var->list1->accept(Vis);
+    vis_var->val = 1;
+    // if(vis_var->val)
+    //   vis_var->list1->accept(Vis);
   }
-
+  return vis_var->val;
 
 }
 
 void Interpreter::visit(class Code_block* vis_var)
 {
   if(errors>0)
-    return;
+    return ;
 
   vis_var->stmt_list->accept(Vis);
-
 }
     /*   Visitor Ends */
 
@@ -598,14 +642,18 @@ Expression * Stmt::getexpr()
   return expr_temp;
 }
 
-Statement_list::Statement_list(class Statements* var1,class Statement_list *var2)
+Statement_list::Statement_list(class Statements* var1,class Statement_list *var2,string txt)
 {
+  count = 0;
+  type = txt;
   name = "";
   list1 = var1;
   list2 = var2;
 }
 Statement_list::Statement_list(string str,class Statement_list *var2)
 {
+  type = "NOT_GOTO";
+  count = 0;
   name = str;
   symtable2->addnode(str,var2);
   list2 = var2;
@@ -613,6 +661,8 @@ Statement_list::Statement_list(string str,class Statement_list *var2)
 }
 Statement_list::Statement_list()
 {
+  count = 0;
+  type = "NOT_GOTO";
   name = "";
   list1 = NULL;
   list2 = NULL;
@@ -722,24 +772,20 @@ Prt::Prt(class Variables2* var1)
   var = var1;
 }
 
-GoToLoop::GoToLoop(string str,class Statement_list* var,string str2)
+GoToLoop::GoToLoop(string str)
 {
-  name1 = str;
-  name2 = str2;
-  list1 = var;
+  name = str;
   val = 1;
   reqd_expr = NULL;
 }
-GoToLoop::GoToLoop(string str,class Statement_list* var,string str2,class BoolExpression *var1)
+GoToLoop::GoToLoop(string str,class BoolExpression *var1)
 {
-  name1 = str;
-  name2 = str2;
-  list1 = var;
+  name = str;
   reqd_expr = var1;
 }
 
     /* traversal */
-    
+
 int Expression::perform_op(int temp1,int temp2,string oper)
 {
   if(oper == "+")
