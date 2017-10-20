@@ -1,6 +1,6 @@
 declblock{
 	int data[100];
-	int i, sum;
+	int i, sum,i;
 }
 codeblock{
 	i = 0;

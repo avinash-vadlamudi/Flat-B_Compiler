@@ -7,6 +7,7 @@
   extern int line_num;
   int yylex (void);
   class Program* start = NULL;
+  Visitor *Vis = new Interpreter();
   void yyerror (char const *s);
   void variables_redeclaration();
   void variables_checking();
@@ -279,6 +280,6 @@ int main(int argc, char *argv[])
 	yyparse();
   if(start)
   {
-    start->traverse();
+    start->accept(Vis);
   }
 }

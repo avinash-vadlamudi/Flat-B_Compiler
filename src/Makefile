@@ -1,5 +1,5 @@
 bcc:	parser.tab.c lex.yy.c classes.cpp classes.h
-	g++ parser.tab.c classes.cpp -lfl -o bcc
+	g++ -g parser.tab.c classes.cpp -lfl -o bcc
 parser.tab.c: parser.y 
 	bison -d -v parser.y 
 parser.tab.h: parser.y
