@@ -29,7 +29,7 @@ extern union Node yylval;
 "println"	{yylval.identifier = strdup(yytext);return PRINTLN;}
 "read"		{yylval.identifier = strdup(yytext);return READ;}
 
--?([0-9])		{yylval.value = atoi(yytext);return DIGIT;}
+([0-9])		{yylval.value = atoi(yytext);return DIGIT;}
 [1-9][0-9]*	{yylval.value = atoi(yytext);return NUMBER;}
 [a-zA-Z][a-zA-Z0-9]* {yylval.identifier = strdup(yytext);return IDENTIFIER;}
 "+"	{yylval.identifier = strdup(yytext);	return '+';}

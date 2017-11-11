@@ -9,6 +9,7 @@ extern int line_num;
 extern Visitor *Vis;
 int errors;
 
+
 static LLVMContext &Context = getGlobalContext();
 static Module *TheModule = new Module("FlatB Compiler",Context);
 map<string,BasicBlock*> labels_list;
@@ -225,7 +226,6 @@ Value* Program::codegen()
 
 void Program::generateCode()
 {
-  cout<<"Generating LLVM IR CODE"<<endl;
   TheModule->dump();
 }
 
@@ -484,6 +484,8 @@ Value* WhileLoop::codegen()
   if(loop_val==0)
     return 0;
 
+  req_val = reqd_expr->codegen();
+
   Builder.CreateCondBr(req_val,loopBB,nextBB);
 
   Builder.SetInsertPoint(nextBB);
@@ -496,9 +498,13 @@ Value* ForLoop::codegen()
   Value *V = ConstantInt::get(getGlobalContext(),APInt(32,0));
   Value *req_var_addr = var->codegen(0);
 
-  Value *init_val = Builder.getInt32(val1);
-  Value *Inc_val = Builder.getInt32(val2);
-  Value *Fin_val = Builder.getInt32(val3);
+  Value *init_val = val1->codegen();
+  Value* Inc_val = Builder.getInt32(1);
+  if(val2!=NULL)
+    Inc_val = val2->codegen();
+
+
+  Value *Fin_val = val3->codegen();
 
   V = Builder.CreateStore(init_val,req_var_addr);
   Function *req_func = Builder.GetInsertBlock()->getParent();
@@ -516,6 +522,11 @@ Value* ForLoop::codegen()
     return 0;
 
   req_var = Builder.CreateLoad(req_var_addr);
+  if(val2!=NULL)
+    Inc_val = val2->codegen();
+
+  Fin_val = val3->codegen();
+
   Value* next_val = Builder.CreateAdd(req_var,Inc_val,"update");
   V = Builder.CreateStore(next_val,req_var_addr);
   cond_val = Builder.CreateICmpULE(next_val,Fin_val,"cond_cont");
@@ -909,19 +920,36 @@ int Interpreter::visit(class WhileLoop* vis_var)
 
 int Interpreter::visit(class ForLoop* vis_var)
 {
+  int temp1,temp2,temp3;
+  temp1 = vis_var->val1->accept(Vis);
+  temp2 = 1;
+  if(vis_var->val2!=NULL)
+  {
+
+    temp2 = vis_var->val2->accept(Vis);
+  }
+
+  temp3 = vis_var->val3->accept(Vis);
+
   if(errors>0)
     return -1;
   int temp_check;
-  int temp=vis_var->val1;
+  int temp=temp1;
   vis_var->var->accept(Vis);
-  symtable->update(vis_var->var->name,vis_var->var->ind,temp);
+  symtable->update(vis_var->var->name,vis_var->var->ind,temp1);
 
-  while(temp<=vis_var->val3)
+  while(temp<=temp3)
   {
     temp_check = vis_var->list1->accept(Vis);
     if(temp_check == -1)
     return temp_check;
-    temp = temp + vis_var->val2;
+
+    if(vis_var->val2!=NULL)
+      temp2 = vis_var->val2->accept(Vis);
+
+    temp3 = vis_var->val3->accept(Vis);
+
+    temp = temp + temp2;
     vis_var->var->accept(Vis);
     symtable->update(vis_var->var->name,vis_var->var->ind,temp);
   }
@@ -1219,7 +1247,7 @@ WhileLoop::WhileLoop(class BoolExpression *var1,class Statement_list *var2)
   list1 = var2;
 }
 
-ForLoop::ForLoop(class Variables2* var1,int var2,int var3,int var4,class Statement_list* var5)
+ForLoop::ForLoop(class Variables2* var1,class Expression* var2,class Expression* var3,class Expression* var4,class Statement_list* var5)
 {
   var = var1;
   val1 = var2;
@@ -1227,11 +1255,11 @@ ForLoop::ForLoop(class Variables2* var1,int var2,int var3,int var4,class Stateme
   val3 = var3;
   list1 = var5;
 }
-ForLoop::ForLoop(class Variables2* var1,int var2,int var3,class Statement_list *var4)
+ForLoop::ForLoop(class Variables2* var1,class Expression* var2,class Expression* var3,class Statement_list *var4)
 {
   var = var1;
   val1 = var2;
-  val2 = 1;
+  val2 = NULL;
   val3 = var3;
   list1 = var4;
 }

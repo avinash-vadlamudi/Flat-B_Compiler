@@ -1,5 +1,5 @@
 declblock{
-	int data[37];
+	int data[40];
 	int i,sum;
 }
 codeblock{

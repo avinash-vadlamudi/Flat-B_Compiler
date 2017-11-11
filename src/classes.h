@@ -458,14 +458,14 @@ public:
 class ForLoop:public Statements
 {
 public:
-  int val1;
-  int val2;
-  int val3;
+  class Expression* val1;
+  class Expression* val2;
+  class Expression* val3;
   class Variables2 *var;
   class Statement_list *list1;
 public:
-  ForLoop(class Variables2*,int,int,int,class Statement_list*);
-  ForLoop(class Variables2*, int ,int ,class Statement_list*);
+  ForLoop(class Variables2*,class Expression*,class Expression*,class Expression*,class Statement_list*);
+  ForLoop(class Variables2*, class Expression* ,class Expression* ,class Statement_list*);
   int accept(Visitor *V)
   {
     return V->visit(this);

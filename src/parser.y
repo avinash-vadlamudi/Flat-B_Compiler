@@ -153,8 +153,8 @@ condition : IF boolexpression '{' statement_list '}' ELSE '{' statement_list '}'
 whileloop : WHILE boolexpression '{' statement_list '}'  {$$ = new WhileLoop($2,$4);}
 	  ;
 
-forloop : FOR VARIABLE '=' VALUE ',' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8,$10);}
-	| FOR VARIABLE '=' VALUE ',' VALUE '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8);}
+forloop : FOR VARIABLE '=' expression ',' expression ',' expression '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8,$10);}
+	| FOR VARIABLE '=' expression ',' expression '{' statement_list '}'  {$$ = new ForLoop($2,$4,$6,$8);}
 	;
 
 gotoloop :GOTO IDENTIFIER {$$ = new GoToLoop(string($2));}
