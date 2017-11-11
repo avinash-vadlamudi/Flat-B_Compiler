@@ -530,7 +530,7 @@ char *yytext;
 #include "classes.h"
 #include "parser.tab.h"
 using namespace std;
-int line_num;
+int line_num=1;
 extern union Node yylval;
 
 #line 537 "lex.yy.c"

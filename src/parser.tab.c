@@ -2009,4 +2009,9 @@ int main(int argc, char *argv[])
   {
     start->accept(Vis);
   }
+  if(errors==0)
+  {
+    start->codegen();
+    start->generateCode();
+  }
 }

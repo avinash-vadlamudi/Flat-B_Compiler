@@ -1,7 +1,26 @@
 #include<bits/stdc++.h>
+#include<llvm/IR/Module.h>
+#include<llvm/IR/Function.h>
+#include<llvm/IR/IRBuilder.h>
+#include<llvm/IR/Type.h>
+#include<llvm/IR/DerivedTypes.h>
+#include<llvm/IR/LLVMContext.h>
+#include<llvm/Target/TargetMachine.h>
+#include<llvm/IR/PassManager.h>
+#include<llvm/IR/Instructions.h>
+#include<llvm/IR/CallingConv.h>
+#include<llvm/Bitcode/ReaderWriter.h>
+#include<llvm/IR/Verifier.h>
+#include<llvm/Support/TargetSelect.h>
+#include<llvm/ExecutionEngine/GenericValue.h>
+#include<llvm/ExecutionEngine/MCJIT.h>
+#include<llvm/Support/raw_ostream.h>
+
+using namespace std;
+using namespace llvm;
+
 #ifndef __HEADER__
 #define __HEADER__
-using namespace std;
 
 struct Var_node{
   int type;
@@ -165,6 +184,15 @@ public:
 
 };
 
+class Report_error{
+public:
+  static llvm::Value* ErrorV(string str)
+  {
+    cout<<str<<endl;
+    return 0;
+  }
+};
+
 class Astnode
 {
     //virtual void accept(class Visitor *V) = 0;
@@ -184,6 +212,7 @@ public:
   {
     V->visit(this,var);
   }
+  Value* codegen();
 
 };
 
@@ -199,6 +228,7 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
 };
 
 class Decl_stmt:public Astnode
@@ -212,6 +242,7 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
 };
 
 class Declaration_list:public Astnode
@@ -226,6 +257,7 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
 };
 
 class Decl_block:public Astnode
@@ -239,6 +271,7 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
 };
 
 
@@ -275,6 +308,7 @@ class Expr2
 {
 public:
     virtual int accept(class Visitor *V) = 0;
+    virtual Value* codegen(){}
 };
 
 
@@ -294,6 +328,7 @@ public:
     V->visit(this);
     return 0;
   }
+  Value* codegen(int flag);
 };
 
 class Expression:public Expr2
@@ -314,6 +349,7 @@ public:
     int temp = V->visit(this);
     return temp;
   }
+  Value* codegen();
 };
 
 class BoolExpression:public Expr2
@@ -332,6 +368,7 @@ public:
     int temp = V->visit(this);
     return temp;
   }
+  Value* codegen();
 };
 
 
@@ -341,8 +378,9 @@ public:
     virtual int accept(class Visitor *V) = 0;
     virtual class Statement_list* getptr()
     {
-      
+
     }
+    virtual Value* codegen(){}
 
 };
 
@@ -361,6 +399,7 @@ public:
     V->visit(this);
     return 0;
   }
+  Value* codegen();
 };
 
 class Statement_list:public Astnode
@@ -381,6 +420,7 @@ public:
     int temp = V->visit(this);
     return temp;
   }
+  Value* codegen();
 };
 
 class Condition:public Statements
@@ -397,6 +437,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class WhileLoop:public Statements
@@ -411,6 +452,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class ForLoop:public Statements
@@ -428,6 +470,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class Prt:public Astnode
@@ -442,6 +485,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class PrintStmt:public Astnode
@@ -456,6 +500,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen(int flag);
 };
 
 class Print:public Statements
@@ -469,6 +514,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class ReadVars:public Astnode
@@ -483,6 +529,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class Read:public Statements
@@ -495,6 +542,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 class GoToLoop:public Statements
@@ -517,6 +565,7 @@ public:
   {
     return V->visit(this);
   }
+  Value* codegen();
 };
 
 
@@ -531,6 +580,7 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
 };
 
 class Program:public Astnode
@@ -545,6 +595,8 @@ public:
   {
     V->visit(this);
   }
+  Value* codegen();
+  void generateCode();
 };
 
 #endif
