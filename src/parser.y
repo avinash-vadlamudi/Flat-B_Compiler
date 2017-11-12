@@ -51,19 +51,11 @@
 %left '|'
 %left '^'
 %left '&'
-%left NOTEQ
-%left LOGEQ
-%left GEQ
-%left '>'
-%left LEQ
-%left '<'
-%left '-'
-%left '+'
-%left '%'
-%left '/'
-%left '*'
-%left ')'
-%left '('
+%left NOTEQ LOGEQ
+%left GEQ '>' LEQ '<'
+%left '-' '+'
+%left '%' '/' '*'
+%left ')' '('
 
 %type<program> program;
 %type<decl_block> decl_block;
@@ -163,7 +155,7 @@ gotoloop :GOTO IDENTIFIER {$$ = new GoToLoop(string($2));}
 
 read : READ readvars {$$ = new Read($2);}
      ;
-readvars : VARIABLE ',' readvars {$$ = new ReadVars($1,$3);}
+readvars : readvars ',' VARIABLE   {$$ = new ReadVars($3,$1);}
 	 | VARIABLE  {$$ = new ReadVars($1);}
 
 print : PRINT printstmt {$$ = new Print($2,0);}
@@ -175,7 +167,7 @@ printstmt : printstmt ',' prt {$$ = new PrintStmt($3,$1);}
 	  ;
 
 prt : TEXT {$$ = new Prt(string($1));}
-    | VARIABLE {$$ = new Prt($1);}
+    | expression {$$ = new Prt($1);}
     ;
 
 boolexpression : expression LOGOR expression {$$ = new BoolExpression($1,string("||"),$3);}
@@ -281,11 +273,23 @@ int main(int argc, char *argv[])
 	yyparse();
   if(start)
   {
+    double time_start,time_stop;
+    struct timeval time;
+    time_start = clock();
     start->accept(Vis);
+    time_stop = clock();
+    double temp = (time_stop - time_start)/(double)CLOCKS_PER_SEC;
+    cout<<"\n"<<"Time Taken For Interpreter: "<<temp<<"\n";
   }
   if(errors==0)
   {
+    double time_start,time_stop;
+    struct timeval time;
+    time_start = clock();
     start->codegen();
     start->generateCode();
+    time_stop = clock();
+    double temp = (time_stop - time_start)/(double)CLOCKS_PER_SEC;
+    cout<<"\n"<<"Time Taken For IR generation: "<<temp<<"\n";
   }
 }

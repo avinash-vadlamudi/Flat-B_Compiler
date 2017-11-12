@@ -1,4 +1,4 @@
-FLAGS = -Wno-deprecated -w -g -std=c++11
+FLAGS =  -w -g -std=c++11
 CFLAGS = -lfl `llvm-config-3.8 --cxxflags --cppflags mcjit native --ldflags --libs core` -ltinfo -lpthread -ldl
 bcc:	parser.tab.c lex.yy.c classes.cpp classes.h
 	g++ $(FLAGS) parser.tab.c classes.cpp $(CFLAGS) -o bcc

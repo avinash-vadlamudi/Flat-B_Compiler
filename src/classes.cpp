@@ -360,15 +360,15 @@ Value* BoolExpression::codegen()
   Value *V2 = e2->codegen();
   if(oper == "||")
   {
-    if(V1==Builder.getInt32(1)||V2==Builder.getInt32(1))
-      V = Builder.getInt32(1);
-    //V = Builder.CreateICmpOr(V1,V2,"COr");
+    // if(V1==Builder.getInt32(1)||V2==Builder.getInt32(1))
+    //   V = Builder.getInt32(1);
+    V = Builder.CreateOr(V1,V2,"COr");
   }
   else if(oper == "&&")
   {
-    if(V1==Builder.getInt32(1) && V2==Builder.getInt32(1))
-      V = Builder.getInt32(1);
-    // V = Builder.CreateICmpAnd(V1,V2,"CAnd");
+    // if(V1==Builder.getInt32(1) && V2==Builder.getInt32(1))
+    //   V = Builder.getInt32(1);
+    V = Builder.CreateAnd(V1,V2,"CAnd");
   }
   else if(oper == "==")
   {
@@ -554,7 +554,7 @@ Value *Prt::codegen()
   }
   else
   {
-    V = var->codegen(1);
+    V = var->codegen();
   }
   return V;
 }
@@ -670,7 +670,7 @@ Value* Code_block::codegen()
       /* Code-generation ends */
 
 
-      /* Visitor Implementation */
+      /* Interpreter Implementation */
 
 
 void Interpreter::visit(class Program* vis_prog)
@@ -832,7 +832,7 @@ int Interpreter::visit(class Statement_list* vis_var)
 {
   if(errors>0)
     return -1;
-  int temp_check;
+  int temp_check=0;
 
   if(vis_var->type == "GOTO")
   {
@@ -879,7 +879,7 @@ int Interpreter::visit(class Condition* vis_var)
 {
   if(errors>0)
     return -1;
-  int temp_check;
+  int temp_check=0;
   vis_var->val = vis_var->reqd_expr->accept(Vis);
   //vis_var->val = vis_var->reqd_expr->value;
   if(vis_var->val==1)
@@ -963,11 +963,14 @@ int Interpreter::visit(class Prt* vis_var)
     return -1;
 
   if(vis_var->text!="")
-    cout<<vis_var->text.substr(1,vis_var->text.length()-2)<<" ";
+  {
+    string temp = vis_var->text.substr(1,vis_var->text.length()-2);
+
+    cout<<temp<<" ";
+  }
   if(vis_var->var!=NULL)
   {
-    vis_var->var->accept(Vis);
-    int temp = vis_var->var->val;
+    int temp = vis_var->var->accept(Vis);
     cout<<temp<<" ";
   }
   return 0;
@@ -1067,7 +1070,7 @@ void Interpreter::visit(class Code_block* vis_var)
 
   vis_var->stmt_list->accept(Vis);
 }
-    /*   Visitor Ends */
+    /*   Interpreter Ends */
 
 
     /* Constructors */
@@ -1312,7 +1315,7 @@ Prt::Prt(string var1)
   text = var1;
   var = NULL;
 }
-Prt::Prt(class Variables2* var1)
+Prt::Prt(class Expression* var1)
 {
   text = "";
   var = var1;

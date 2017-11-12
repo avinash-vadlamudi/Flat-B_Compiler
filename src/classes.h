@@ -16,11 +16,16 @@
 #include<llvm/ExecutionEngine/MCJIT.h>
 #include<llvm/Support/raw_ostream.h>
 
+#include<time.h>
+#include<sys/time.h>
+
+
 using namespace std;
 using namespace llvm;
 
 #ifndef __HEADER__
 #define __HEADER__
+
 
 struct Var_node{
   int type;
@@ -477,10 +482,10 @@ class Prt:public Astnode
 {
 public:
   string text;
-  class Variables2* var;
+  class Expression* var;
 public:
   Prt(string);
-  Prt(class Variables2*);
+  Prt(class Expression*);
   int accept(Visitor *V)
   {
     return V->visit(this);
