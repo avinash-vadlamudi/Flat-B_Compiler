@@ -273,23 +273,11 @@ int main(int argc, char *argv[])
 	yyparse();
   if(start)
   {
-    double time_start,time_stop;
-    struct timeval time;
-    time_start = clock();
     start->accept(Vis);
-    time_stop = clock();
-    double temp = (time_stop - time_start)/(double)CLOCKS_PER_SEC;
-    cout<<"\n"<<"Time Taken For Interpreter: "<<temp<<"\n";
   }
   if(errors==0)
   {
-    double time_start,time_stop;
-    struct timeval time;
-    time_start = clock();
     start->codegen();
     start->generateCode();
-    time_stop = clock();
-    double temp = (time_stop - time_start)/(double)CLOCKS_PER_SEC;
-    cout<<"\n"<<"Time Taken For IR generation: "<<temp<<"\n";
   }
 }

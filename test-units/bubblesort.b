@@ -1,5 +1,5 @@
 declblock{
-	int i,j,n,a[100],temp,temp2,temp3;
+	int i,j,n,a[10001],temp,temp2,temp3;
 }
 codeblock{
 	read n;
@@ -23,4 +23,5 @@ codeblock{
 	{
 		print a[i];
 	}
+	println "";
 }
