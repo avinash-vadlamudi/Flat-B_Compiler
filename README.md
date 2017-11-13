@@ -2,7 +2,8 @@
 
 To run the code, use the following commands:
 
-make
+make;
+
 ./bcc filename 2>temp.ll  ---- This redirects the IR code genrerated into temp.ll file and also runs the interpreter created using AST.
 
 ## To run using lli
